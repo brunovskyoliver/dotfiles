@@ -3,21 +3,21 @@
 if [[ "$1" == "-s" ]]; then
     cmd="echo simulating copying"
 else
-    cmd="cp -rv"
+    cmd="cp -rvf"
 fi
-dirs=$(find "$HOME/dotfiles/" -mindepth 1 -maxdepth 1 -type d | awk '!/git/')
-mkdir -p "$HOME/.config/"
+dirs=$(find "$HOME/dotfiles" -mindepth 1 -maxdepth 1 -type d | awk '!/git/')
+mkdir -p "$HOME/.config"
 
 for dir in $dirs; do
-    $cmd "$dir" "$HOME/.config/"
+    $cmd "$dir" "$HOME/.config"
 done
 
-files=$(find "$HOME/dotfiles/" -mindepth 1 -maxdepth 1 -type f | grep rc)
+files=$(find "$HOME/dotfiles" -mindepth 1 -maxdepth 1 -type f | grep rc)
 for file in $files; do
-    $cmd "$file" "$HOME/"
+    $cmd "$file" "$HOME"
 done
 
-files=$(find "$HOME/dotfiles/" -mindepth 1 -maxdepth 1 -type f | grep tmux)
+files=$(find "$HOME/dotfiles" -mindepth 1 -maxdepth 1 -type f | grep tmux)
 for file in $files; do
-    $cmd "$file" "$HOME/"
+    $cmd "$file" "$HOME"
 done

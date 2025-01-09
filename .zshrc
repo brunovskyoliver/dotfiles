@@ -142,14 +142,6 @@ alias gcssh='gcloud compute ssh --zone "europe-north1-a" "debianvm" --project "p
 alias weather='curl wttr.in'
 
 alias pd='cd ~/Documents/Programming'
-alias notes='cd ~/Documents/Notes'
-alias note='cp ~/Documents/Notes/sample.tex ./'
-alias arc='open /Applications/Arc.app'
-alias wa='open /Applications/WhatsApp.localized/WhatsApp.app'
-alias wue='sudo wg-quick up /usr/local/etc/wireguard/e-net.conf'
-alias wun='sudo wg-quick up /usr/local/etc/wireguard/novem.conf'
-alias wde='sudo wg-quick down /usr/local/etc/wireguard/e-net.conf' 
-alias wdn='sudo wg-quick down /usr/local/etc/wireguard/novem.conf' 
 export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
 eval "$(zoxide init zsh)"
 #eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
