@@ -24,7 +24,7 @@ alias grep='grep --color=auto'
 
 # Replace utilities with their equivalents.
 alias cat='bat --pager=never --style=plain'
-
+alias sudo='sudo '
 
 
 # Set list of themes to pick from when loading at random
