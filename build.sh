@@ -5,14 +5,19 @@ if [[ "$1" == "-s" ]]; then
 else
     cmd="cp -rv"
 fi
-dirs=$(find . -mindepth 1 -maxdepth 1 -type d | awk '!/git/')
+dirs=$(find "$HOME/dotfiles/" -mindepth 1 -maxdepth 1 -type d | awk '!/git/')
 mkdir -p "$HOME/.config/"
 
 for dir in $dirs; do
     $cmd "$dir" "$HOME/.config/"
 done
 
-files=$(find . -mindepth 1 -maxdepth 1 -type f | grep rc)
+files=$(find "$HOME/dotfiles/" -mindepth 1 -maxdepth 1 -type f | grep rc)
+for file in $files; do
+    $cmd "$file" "$HOME/"
+done
+
+files=$(find "$HOME/dotfiles/" -mindepth 1 -maxdepth 1 -type f | grep tmux)
 for file in $files; do
     $cmd "$file" "$HOME/"
 done

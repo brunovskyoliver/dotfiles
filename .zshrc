@@ -9,7 +9,7 @@ export PATH="$HOME/.local/scripts:$PATH"
 bindkey -s ^f "vim-fzf\n"
 bindkey -s ^s "ssh-connections\n"
 
-# Set name of the theme to load --- if set to "random", it will
+alias remf='rm -rf "$HOME/Library/Containers/com.apple.FinalCutTrial/Data/Library/Application Support/.ffuserdata"'
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
