@@ -139,3 +139,4 @@ alias wun='sudo wg-quick up /usr/local/etc/wireguard/novem.conf'
 alias wde='sudo wg-quick down /usr/local/etc/wireguard/e-net.conf' 
 alias wdn='sudo wg-quick down /usr/local/etc/wireguard/novem.conf' 
 export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
+eval "$(zoxide init zsh)"
