@@ -15,6 +15,18 @@ alias remf='rm -rf "$HOME/Library/Containers/com.apple.FinalCutTrial/Data/Librar
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 ZSH_THEME="ys"
 
+##### Aliases #####
+# Enable colors by default.
+alias diff='diff --color=auto'
+alias egrep='egrep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias grep='grep --color=auto'
+
+# Replace utilities with their equivalents.
+alias cat='bat --pager=never --style=plain'
+
+
+
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
 # a theme from this variable instead of looking in $ZSH/themes/
@@ -140,3 +152,4 @@ alias wde='sudo wg-quick down /usr/local/etc/wireguard/e-net.conf'
 alias wdn='sudo wg-quick down /usr/local/etc/wireguard/novem.conf' 
 export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
 eval "$(zoxide init zsh)"
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
