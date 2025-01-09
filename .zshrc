@@ -3,7 +3,7 @@
 
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
-
+export PATH="/home/brunovsky/.local/bin:$PATH"
 export PATH="/Applications/Emacs.app/Contents/MacOS:$PATH"
 export PATH="$HOME/.local/scripts:$PATH"
 bindkey -s ^f "vim-fzf\n"
