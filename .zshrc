@@ -14,7 +14,7 @@ bindkey -s ^s "ssh-connections\n"
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 ZSH_THEME="ys"
-
+#ZSH_THEME="robbyrussell"
 ##### Aliases #####
 # Enable colors by default.
 alias diff='diff --color=auto'
@@ -25,7 +25,7 @@ alias grep='grep --color=auto'
 # Replace utilities with their equivalents.
 alias cat='bat --pager=never --style=plain'
 alias sudo='sudo '
-
+alias gdb='arm-none-eabi-gdb'
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -145,3 +145,7 @@ alias pd='cd ~/Documents/Programming'
 export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
 eval "$(zoxide init zsh)"
 #eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+export PATH="/opt/homebrew/opt/tcl-tk/bin:$PATH"
+export LDFLAGS="-L/opt/homebrew/opt/tcl-tk/lib"
+export CPPFLAGS="-I/opt/homebrew/opt/tcl-tk/include"
+export PKG_CONFIG_PATH="/opt/homebrew/opt/tcl-tk/lib/pkgconfig"

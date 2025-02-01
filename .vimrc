@@ -1,5 +1,6 @@
 " Use spaces instead of tabs
 set expandtab
+set relativenumber
 
 " Be smart when using tabkey
 set smarttab
@@ -14,11 +15,17 @@ Plug 'romainl/vim-cool'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+Plug 'rose-pine/vim'
 call plug#end()
 syntax on
 set t_Co=256
-colorscheme yowish
+"colorscheme yowish
+"set backgroud=dark
+colorscheme rosepine
 set ai "Auto indent
+set background=dark
+colorscheme rosepine
+set termguicolors
 set si "Smart indent
 set wrap "Wrap lines
 highlight! CocInlayHint ctermfg=yellow guifg=#ffff00
