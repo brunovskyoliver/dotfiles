@@ -21,7 +21,7 @@ alias diff='diff --color=auto'
 alias egrep='egrep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias grep='grep --color=auto'
-
+alias air='~/go/bin/air'
 # Replace utilities with their equivalents.
 alias cat='bat --pager=never --style=plain'
 alias sudo='sudo '

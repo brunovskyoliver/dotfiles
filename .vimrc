@@ -1,7 +1,8 @@
 " Use spaces instead of tabs
 set expandtab
 set relativenumber
-
+set shortmess+=F
+packloadall
 " Be smart when using tabkey
 set smarttab
 let g:jedi#show_call_signatures = 0
@@ -13,9 +14,13 @@ call plug#begin()
 Plug 'KabbAmine/yowish.vim'
 Plug 'romainl/vim-cool'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'neoclide/coc-snippets'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'rose-pine/vim'
+Plug 'prettier/vim-prettier', { 'do': 'yarn install --frozen-lockfile --production' }
+Plug 'rhysd/vim-clang-format'
+
 call plug#end()
 syntax on
 set t_Co=256
@@ -43,8 +48,8 @@ set history=1000
 set wildmenu
 
 set wildmode=list:longest
-
-
+"autocmd BufWritePre *.go :silent call CocAction('runCommand', 'editor.action.organizeImport')
+autocmd FileType go,c setlocal noexpandtab tabstop=4 shiftwidth=4 softtabstop=4
 " Set to auto read when a file is changed from the outside
 set autoread
 
@@ -63,6 +68,7 @@ set t_vb=
 set tm=500
 
 
+autocmd BufWritePre *.c,*.cpp,*.h :ClangFormat
 
 " Use tab for trigger completion with characters ahead and navigate
 inoremap <silent><expr> <TAB>
@@ -79,7 +85,6 @@ function! CheckBackspace() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
-
 " Disable inlay hints
 call coc#config('inlayHint', {
   \ 'enable': v:false,
@@ -151,7 +156,7 @@ set statusline+=%=
 set statusline+=\ ascii:\ %b\ hex:\ 0x%B\ row:\ %l\ col:\ %c\ percent:\ %p%%
 
 " Show the status on the second to last line.
-set laststatus=2
+set laststatus=1
 
 " }}}
 
