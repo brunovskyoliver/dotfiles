@@ -1,15 +1,46 @@
-" Use spaces instead of tabs
+let g:jedi#show_call_signatures = 0
+let mapleader = " "  
 set expandtab
+set scrolloff=3
 set relativenumber
 set shortmess+=F
-packloadall
-" Be smart when using tabkey
 set smarttab
-let g:jedi#show_call_signatures = 0
 set rtp+=/usr/local/opt/fzf
 set nocompatible
+set t_Co=256
+set ai "indent
+set si "indent
+set wrap
+set showmode
+set showmatch
+set hlsearch
+set history=1000
+set wildmenu
+set wildmode=list:longest
+set autoread
+set backspace=eol,start,indent
+set showmatch 
+set mat=2
+set noerrorbells
+set novisualbell
+set t_vb=
+set tm=500
+set number
+set cursorline
+set encoding=utf8
+set ffs=unix,dos,mac
+set nobackup
+set nowb
+set noswapfile
+set ruler
+filetype on
 filetype plugin on
+filetype plugin indent on
+syntax on
+syntax enable 
+packloadall
 
+" VimPlug
 call plug#begin()
 Plug 'KabbAmine/yowish.vim'
 Plug 'romainl/vim-cool'
@@ -20,176 +51,106 @@ Plug 'junegunn/fzf.vim'
 Plug 'rose-pine/vim'
 Plug 'prettier/vim-prettier', { 'do': 'yarn install --frozen-lockfile --production' }
 Plug 'rhysd/vim-clang-format'
-
+Plug 'mbbill/undotree'
+Plug 'tpope/vim-fugitive'
 call plug#end()
-syntax on
-set t_Co=256
-"colorscheme yowish
-"set backgroud=dark
-colorscheme rosepine
-set ai "Auto indent
-set background=dark
-colorscheme rosepine
-set termguicolors
-set si "Smart indent
-set wrap "Wrap lines
+" EOF VimPlug
+
+" Coc
 highlight! CocInlayHint ctermfg=yellow guifg=#ffff00
 execute pathogen#infect()
-syntax on
-filetype plugin indent on
 augroup CustomColors
-    autocmd!
-    autocmd ColorScheme * highlight! CocInlayHint ctermfg=yellow guifg=#ffff00
+        autocmd!
+        autocmd ColorScheme * highlight! CocInlayHint ctermfg=yellow guifg=#ffff00
 augroup END
-set showmode
-set showmatch
-set hlsearch
-set history=1000
-set wildmenu
-
-set wildmode=list:longest
 "autocmd BufWritePre *.go :silent call CocAction('runCommand', 'editor.action.organizeImport')
 autocmd FileType go,c setlocal noexpandtab tabstop=4 shiftwidth=4 softtabstop=4
-" Set to auto read when a file is changed from the outside
-set autoread
-
-" Configure backspace so it acts as it should act
-set backspace=eol,start,indent
-
-" Show matching brackets when text indicator is over them
-set showmatch 
-" How many tenths of a second to blink when matching brackets
-set mat=2
-
-" No annoying sound on errors
-set noerrorbells
-set novisualbell
-set t_vb=
-set tm=500
-
-
-autocmd BufWritePre *.c,*.cpp,*.h :ClangFormat
-
-" Use tab for trigger completion with characters ahead and navigate
 inoremap <silent><expr> <TAB>
-      \ coc#pum#visible() ? coc#pum#next(1) :
-      \ CheckBackspace() ? "\<Tab>" :
-      \ coc#refresh()
+                        \ coc#pum#visible() ? coc#pum#next(1) :
+                        \ CheckBackspace() ? "\<Tab>" :
+                        \ coc#refresh()
 inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
-
-" Make <CR> to accept selected completion item or notify coc.nvim to format
 inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
-                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
-
+                        \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 function! CheckBackspace() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
+        let col = col('.') - 1
+        return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
-" Disable inlay hints
 call coc#config('inlayHint', {
-  \ 'enable': v:false,
-\})
+                        \ 'enable': v:false,
+                        \})
 nnoremap <silent> D :call ShowDocumentation()<CR>
-
 function! ShowDocumentation()
-  if CocAction('hasProvider', 'hover')
-    call CocActionAsync('doHover')
-  else
-    call feedkeys('D', 'in')
-  endif
+        if CocAction('hasProvider', 'hover')
+                call CocActionAsync('doHover')
+        else
+                call feedkeys('D', 'in')
+        endif
 endfunction
+" EOF Coc
 
-" Enable syntax highlighting
-syntax enable 
-set number
-set cursorline
-" Set utf8 as standard encoding and en_US as the standard language
-set encoding=utf8
-
-" Use Unix as the standard file type
-set ffs=unix,dos,mac
-
-" Turn backup off, since most stuff is in SVN, git et.c anyway...
-set nobackup
-set nowb
-set noswapfile
-
-" Return to last edit position when opening files (You want this!)
-autocmd BufReadPost *
-     \ if line("'\"") > 0 && line("'\"") <= line("$") |
-     \   exe "normal! g`\"" |
-     \ endif
-" Remember info about open buffers on close
-set viminfo^=%
-
-filetype plugin indent on
-syntax on
-filetype on
-
-" REQUIRED. This makes vim invoke Latex-Suite when you open a tex file.
-filetype plugin on
-
-" IMPORTANT: win32 users will need to have 'shellslash' set so that latex
-" can be called correctly.
-set shellslash
-
-" OPTIONAL: This enables automatic indentation as you type.
-filetype indent on
-
-" OPTIONAL: Starting with Vim 7, the filetype of empty .tex files defaults to
-" 'plaintex' instead of 'tex', which results in vim-latex not being loaded.
-" The following changes the default filetype back to 'tex':
-let g:tex_flavor='latex'
-
-" STATUS LINE ------------------------------------------------------------ {{{
-
-" Clear status line when vimrc is reloaded.
-set statusline=
-
-" Status line left side.
-set statusline+=\ %F\ %M\ %Y\ %R
-
-" Use a divider to separate the left side from the right side.
-set statusline+=%=
-
-" Status line right side.
-set statusline+=\ ascii:\ %b\ hex:\ 0x%B\ row:\ %l\ col:\ %c\ percent:\ %p%%
-
-" Show the status on the second to last line.
-set laststatus=1
-
-" }}}
-
-set ruler
+" Oldove remapy
+nnoremap <leader>u :UndotreeToggle<CR>:wincmd w<CR>
+nnoremap <leader>y "+Y
+vnoremap J :m '>+1<CR>gv=gv
+vnoremap K :m '<-2<CR>gv=gv
+nnoremap J mzJ`z
+nnoremap <C-d> <C-d>zz
+nnoremap <C-u> <C-u>zz
+nnoremap n nzzzv
+nnoremap N Nzzzv
+nnoremap =ap ma=ap'a
+nnoremap Q <nop>
+" velmi zaujimavy cmd
+xnoremap <leader>p "_c<C-R>=substitute(getreg('+'),'\n$','','')<CR><Esc>
+nnoremap <leader>d "_d
+vnoremap <leader>d "_d
+nnoremap <leader>s :%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>
+nnoremap <leader>n :let @/ = '\<' . expand('<cword>') . '\>'<CR>n
+command! -nargs=* W w
+command! -nargs=* -complete=file E tabedit <args>
 nnoremap <C-l> :Files<CR>
-
 inoremap <C-l> <Esc>:Files<CR>
 tnoremap <C-l> <C-\><C-N>:Files<CR>
-map <F5> :call CompileRun()<CR>
-imap <F5> <Esc>:call CompileRun()<CR>
-vmap <F5> <Esc>:call CompileRun()<CR>
+" EOF Oldove remapy
+let g:fzf_action = {
+  \ 'enter': 'tabedit',
+  \ 'ctrl-x': 'split',
+  \ 'ctrl-v': 'vsplit'
+  \ }
 
-func! CompileRun()
-exec "w"
-if &filetype == 'c'
-    exec "!gcc % -o %<"
-    exec "!time ./%<"
-elseif &filetype == 'cpp'
-    exec "!g++ % -o %<"
-    exec "!time ./%<"
-elseif &filetype == 'java'
-    exec "!javac %"
-    exec "!time java %"
-elseif &filetype == 'sh'
-    exec "!time bash %"
-elseif &filetype == 'python'
-    exec "!time python %"
-elseif &filetype == 'html'
-    exec "!google-chrome % &"
-elseif &filetype == 'go'
-    exec "!go build %<"
-    exec "!time go run %"
-elseif &filetype == 'matlab'
-    exec "!time octave %"
+" Colorscheme
+if has("termguicolors")
+        set termguicolors
 endif
-endfunc
+colorscheme rosepine
+autocmd ColorScheme * highlight Normal     guibg=NONE ctermbg=NONE
+autocmd ColorScheme * highlight NormalFloat guibg=NONE ctermbg=NONE
+autocmd ColorScheme * highlight NonText    guibg=NONE ctermbg=NONE
+" EOF Colorscheme
+
+" Automatizacia pri zatvarani suborov
+augroup AutoIndentParagraph
+        autocmd!
+        autocmd BufWritePre * normal! ma=ap'a
+augroup END
+autocmd BufReadPost *
+                        \ if line("'\"") > 0 && line("'\"") <= line("$") |
+                        \   exe "normal! g`\"" |
+                        \ endif
+set viminfo^=%
+" EOF Automatizacia pri zatvarani suborov
+
+" LaTeX
+set shellslash
+let g:tex_flavor='latex'
+" EOF LaTeX
+
+" Status_line 
+set statusline=
+set statusline+=\ %F\ %M\ %Y\ %R
+set statusline+=%=
+set statusline+=\ ascii:\ %b\ hex:\ 0x%B\ row:\ %l\ col:\ %c\ percent:\ %p%%
+set laststatus=1
+" EOF Status_line 
+
