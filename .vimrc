@@ -56,6 +56,16 @@ Plug 'tpope/vim-fugitive'
 call plug#end()
 " EOF VimPlug
 
+" Colorscheme
+if has("termguicolors")
+        set termguicolors
+endif
+colorscheme rosepine
+highlight Normal       guibg=NONE ctermbg=NONE
+highlight NormalFloat  guibg=NONE ctermbg=NONE
+highlight NonText      guibg=NONE ctermbg=NONE
+" EOF Colorscheme
+
 " Coc
 highlight! CocInlayHint ctermfg=yellow guifg=#ffff00
 execute pathogen#infect()
@@ -106,6 +116,7 @@ xnoremap <leader>p "_c<C-R>=substitute(getreg('+'),'\n$','','')<CR><Esc>
 nnoremap <leader>d "_d
 vnoremap <leader>d "_d
 nnoremap <leader>s :%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>
+xnoremap <leader>r "sy:'<,'>s/\V<C-r>=escape(substitute(@s, '\n\+$', '', 'g'), '\/')<CR>//g<Left><Left>
 nnoremap <leader>n :let @/ = '\<' . expand('<cword>') . '\>'<CR>n
 command! -nargs=* W w
 command! -nargs=* -complete=file E tabedit <args>
@@ -114,20 +125,11 @@ inoremap <C-l> <Esc>:Files<CR>
 tnoremap <C-l> <C-\><C-N>:Files<CR>
 " EOF Oldove remapy
 let g:fzf_action = {
-  \ 'enter': 'tabedit',
-  \ 'ctrl-x': 'split',
-  \ 'ctrl-v': 'vsplit'
-  \ }
+                        \ 'enter': 'tabedit',
+                        \ 'ctrl-x': 'split',
+                        \ 'ctrl-v': 'vsplit'
+                        \ }
 
-" Colorscheme
-if has("termguicolors")
-        set termguicolors
-endif
-colorscheme rosepine
-autocmd ColorScheme * highlight Normal     guibg=NONE ctermbg=NONE
-autocmd ColorScheme * highlight NormalFloat guibg=NONE ctermbg=NONE
-autocmd ColorScheme * highlight NonText    guibg=NONE ctermbg=NONE
-" EOF Colorscheme
 
 " Automatizacia pri zatvarani suborov
 augroup AutoIndentParagraph
