@@ -84,3 +84,10 @@ vim.api.nvim_create_autocmd("VimEnter", {
                 end
         end,
 })
+
+vim.api.nvim_create_user_command("Glow", function()
+  local file = vim.fn.expand("%:p")
+  local cmd = "glow " .. vim.fn.shellescape(file)
+  vim.cmd("split | terminal " .. cmd)
+end, {})
+

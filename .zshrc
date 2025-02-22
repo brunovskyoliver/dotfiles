@@ -26,6 +26,10 @@ alias air='~/go/bin/air'
 alias cat='bat --pager=never --style=plain'
 alias sudo='sudo '
 alias gdb='arm-none-eabi-gdb'
+alias vim='nvim'
+locip() {
+  ifconfig | grep -Eo 'inet (192\.[0-9]+\.[0-9]+\.[0-9]+)' | awk '{print $2}' | xargs
+}
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
