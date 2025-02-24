@@ -34,7 +34,7 @@ alias b='echo "$(pbpaste)" > ~/.cache/last_url && w3m "$(pbpaste)" -o accept_enc
 n() {
     w3m -dump "$(cat ~/.cache/last_url)" -o accept_encoding="identity;q=0" | nvim -
 }
-alias nb = 'newsboat'
+alias nb='newsboat'
 
 
 # Set list of themes to pick from when loading at random
