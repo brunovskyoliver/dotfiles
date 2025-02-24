@@ -30,6 +30,11 @@ alias vim='nvim'
 locip() {
   ifconfig | grep -Eo 'inet (192\.[0-9]+\.[0-9]+\.[0-9]+)' | awk '{print $2}' | xargs
 }
+alias b='echo "$(pbpaste)" > ~/.cache/last_url && w3m "$(pbpaste)" -o accept_encoding="identity;q=0"'
+n() {
+    w3m -dump "$(cat ~/.cache/last_url)" -o accept_encoding="identity;q=0" | nvim -
+}
+
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load

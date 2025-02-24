@@ -6,5 +6,8 @@ return {
     },
 
     "eandrju/cellular-automaton.nvim",
+{
+    'numToStr/Comment.nvim',
+},
 }
 
