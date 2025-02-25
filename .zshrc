@@ -30,11 +30,9 @@ alias vim='nvim'
 locip() {
   ifconfig | grep -Eo 'inet (192\.[0-9]+\.[0-9]+\.[0-9]+)' | awk '{print $2}' | xargs
 }
-alias b='echo "$(pbpaste)" > ~/.cache/last_url && w3m "$(pbpaste)" -o accept_encoding="identity;q=0"'
-n() {
-    w3m -dump "$(cat ~/.cache/last_url)" -o accept_encoding="identity;q=0" | nvim -
-}
-alias nb='newsboat'
+alias b='w3m "$(cat ~/.cache/last_url)" -o accept_encoding="identity;q=0"'
+alias n='echo "$(cat ~/.cache/preloaded_buffer)" | nvim -'
+alias nb='newsboat --refresh-on-start'
 
 
 # Set list of themes to pick from when loading at random

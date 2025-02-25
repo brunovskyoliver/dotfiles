@@ -58,4 +58,4 @@ vim.api.nvim_create_autocmd("BufWinEnter", {
     vim.cmd("silent! loadview")
   end,
 })
-
+vim.g.loaded_python3_provider = 0
