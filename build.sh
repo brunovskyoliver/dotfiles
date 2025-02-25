@@ -21,3 +21,5 @@ files=$(find "$HOME/dotfiles" -mindepth 1 -maxdepth 1 -type f | grep tmux)
 for file in $files; do
     $cmd "$file" "$HOME"
 done
+
+(cd ~/dotfiles && git add . && git commit -m "automat push" && git push origin main --force)
