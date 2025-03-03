@@ -23,7 +23,7 @@ end)
 
 -- greatest remap ever
 vim.keymap.set("n", "<leader>p", "o<Esc>\"+P", { silent = true, noremap = true })
-vim.keymap.set("i", "<C-p>", "\"+p", { silent = true, noremap = true })
+vim.keymap.set("i", "<C-p>", "<C-r>+", { silent = true, noremap = true })
 
 -- next greatest remap ever : asbjornHaland
 vim.keymap.set({"n", "v"}, "<leader>y", [["+y]])
