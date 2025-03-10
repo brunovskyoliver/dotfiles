@@ -87,7 +87,7 @@ return {
                 ['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
                 ['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
                 ['<CR>'] = cmp.mapping.confirm({ select = true }),
-                ["<C-CR>"] = cmp.mapping.complete(),
+                ["<Tab>"] = cmp.mapping.complete(),
             }),
             sources = cmp.config.sources({
                 { name = "copilot", group_index = 2 },
