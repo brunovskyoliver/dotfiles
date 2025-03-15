@@ -2,6 +2,7 @@ require("theprimeagen.set")
 require("theprimeagen.remap")
 require("theprimeagen.lazy_init")
 
+require('telescope').load_extension('distant')
 local remote_finder = require("theprimeagen.remote_finder")
 
 -- Bind the key to the function
