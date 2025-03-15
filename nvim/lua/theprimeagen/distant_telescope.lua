@@ -16,20 +16,18 @@ local action_state = require('telescope.actions.state')
 local pickers = require('telescope.pickers')
 local finders = require('telescope.finders')
 
--- Ensure distant is initialized before connecting
-if distant then
-    distant.setup({}) -- Ensures distant is properly initialized
-end
-
--- Function to list remote files
+-- Function to search remote files using DistantSearch
 function M.find_remote_files(opts)
     opts = opts or {}
     local remote_path = opts.path or '.'
+    local search_pattern = opts.pattern or '.*' -- Default pattern to match everything
+    local search_target = opts.target or 'contents' -- Default to searching file contents
+    local search_limit = opts.limit or 100 -- Default limit to 100 results
 
     local picker = pickers.new(opts, {
-        prompt_title = 'Remote Files',
+        prompt_title = 'Remote File Search',
         finder = finders.new_table {
-            results = {"Fetching remote files..."},
+            results = {"Searching remote files..."},
             entry_maker = function(entry)
                 return {
                     value = entry,
@@ -49,53 +47,14 @@ function M.find_remote_files(opts)
         return
     end
 
-    -- Ensure distant is running before connecting
-    distant.launch({}, function(launch_err)
-        if launch_err then
-            vim.notify("Error launching distant: " .. vim.inspect(launch_err), vim.log.levels.ERROR)
-            return
-        end
-
-        -- Fetch files asynchronously from Distant
-        distant.connect({}, function(err, conn)
-            if err or not conn then
-                vim.notify("Error connecting to distant: " .. vim.inspect(err), vim.log.levels.ERROR)
-                return
-            end
-
-            conn:send({
-                type = "list",
-                path = remote_path
-            }, function(resp_err, result)
-                if resp_err or not result then
-                    vim.notify("Error listing remote files: " .. vim.inspect(resp_err), vim.log.levels.ERROR)
-                    return
-                end
-
-                local results = {}
-                for _, file in ipairs(result) do
-                    table.insert(results, file.path)
-                end
-
-                -- Update the picker with actual results
-                picker:refresh(finders.new_table {
-                    results = results,
-                    entry_maker = function(entry)
-                        return {
-                            value = entry,
-                            display = entry,
-                            ordinal = entry,
-                        }
-                    end
-                })
-            end)
-        end)
-    end)
+    -- Perform remote search using DistantSearch
+    vim.cmd(string.format(":DistantSearch %s path=%s target=%s limit=%d",
+        search_pattern, remote_path, search_target, search_limit))
 end
 
 -- Setup function
 function M.setup()
-    distant.setup({}) -- Ensure distant is initialized
+    -- Nothing special needed here
 end
 
 return M
