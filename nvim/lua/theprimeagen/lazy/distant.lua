@@ -2,7 +2,6 @@
 local telescope = require('telescope')
 local actions = require('telescope.actions')
 local action_state = require('telescope.actions.state')
-
 local distant = require('distant')  -- ensure distant.nvim is required
 
 -- Define the remote_find_files function globally or within a module
@@ -32,10 +31,9 @@ end
 vim.api.nvim_set_keymap('n', '<leader>rf', '<cmd>lua remote_find_files()<CR>', { noremap = true, silent = true })
 
 return {
-
     'chipsenkbeil/distant.nvim',
     branch = 'v0.3',
     config = function()
-        require('distant'):setup()
+        distant:setup()
     end
 }
