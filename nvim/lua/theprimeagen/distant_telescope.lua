@@ -57,40 +57,40 @@ function M.find_remote_files(opts)
         return
     end
 
-    -- Perform remote search using distant:spawn_wrap to run 'find' on the remote machine
-    distant:spawn_wrap({
+    -- Perform remote search using distant:wrap to generate the command string
+    local wrapped_cmd = distant:wrap({
         cmd = { "find", remote_path, "-type", "f" },
         shell = true,
-    }, function(err, wrapped_cmd)
-        if err then
-            vim.notify("Error wrapping remote command: " .. vim.inspect(err), vim.log.levels.ERROR)
-            return
-        end
+    })
 
-        -- Execute the wrapped command
-        local output = vim.fn.systemlist(wrapped_cmd)
-        if vim.v.shell_error ~= 0 then
-            vim.notify("Error executing remote command: " .. table.concat(output, "\n"), vim.log.levels.ERROR)
-            return
-        end
+    if not wrapped_cmd then
+        vim.notify("Error wrapping remote command", vim.log.levels.ERROR)
+        return
+    end
 
-        for _, line in ipairs(output) do
-            if line ~= "" then
-                table.insert(results, line)
-            end
-        end
+    -- Execute the wrapped command
+    local output = vim.fn.systemlist(wrapped_cmd)
+    if vim.v.shell_error ~= 0 then
+        vim.notify("Error executing remote command: " .. table.concat(output, "\n"), vim.log.levels.ERROR)
+        return
+    end
 
-        picker:refresh(finders.new_table {
-            results = results,
-            entry_maker = function(entry)
-                return {
-                    value = entry,
-                    display = entry,
-                    ordinal = entry,
-                }
-            end
-        })
-    end)
+    for _, line in ipairs(output) do
+        if line ~= "" then
+            table.insert(results, line)
+        end
+    end
+
+    picker:refresh(finders.new_table {
+        results = results,
+        entry_maker = function(entry)
+            return {
+                value = entry,
+                display = entry,
+                ordinal = entry,
+            }
+        end
+    })
 end
 
 -- Setup function
@@ -99,3 +99,4 @@ function M.setup()
 end
 
 return M
+
