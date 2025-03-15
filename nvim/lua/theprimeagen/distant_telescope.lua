@@ -49,10 +49,9 @@ function M.find_remote_files(opts)
         return
     end
 
-    -- Perform remote search using DistantSearch asynchronously
-    vim.fn.jobstart({
-        "distant", "search", search_pattern, "path=" .. remote_path, "target=" .. search_target, "limit=" .. search_limit
-    }, {
+    -- Perform remote search using :DistantSearch asynchronously
+    vim.fn.jobstart({"nvim", "--headless", "-c", string.format(":DistantSearch %s path=%s target=%s limit=%d",
+        search_pattern, remote_path, search_target, search_limit)}, {
         stdout_buffered = true,
         on_stdout = function(_, data)
             if data then
