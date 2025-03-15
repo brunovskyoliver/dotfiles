@@ -38,21 +38,30 @@ function M.find_remote_files(opts)
 
     picker:find()
 
+    -- Ensure distant is available before proceeding
+    if not distant then
+        vim.notify("Distant.nvim is not loaded!", vim.log.levels.ERROR)
+        return
+    end
+
     -- Fetch files asynchronously from Distant
-    distant:connect(function(err, conn)
-        if err then
+    distant.connect({}, function(err, conn)
+        if err or not conn then
             vim.notify("Error connecting to distant: " .. vim.inspect(err), vim.log.levels.ERROR)
             return
         end
 
-        conn:list({ path = remote_path }, function(err, files)
-            if err then
-                vim.notify("Error listing remote files: " .. vim.inspect(err), vim.log.levels.ERROR)
+        conn:send({
+            type = "list",
+            path = remote_path
+        }, function(resp_err, result)
+            if resp_err or not result then
+                vim.notify("Error listing remote files: " .. vim.inspect(resp_err), vim.log.levels.ERROR)
                 return
             end
 
             local results = {}
-            for _, file in ipairs(files) do
+            for _, file in ipairs(result) do
                 table.insert(results, file.path)
             end
 
