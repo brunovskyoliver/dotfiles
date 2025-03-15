@@ -20,7 +20,6 @@ local finders = require('telescope.finders')
 function M.find_remote_files(opts)
     opts = opts or {}
     local remote_path = opts.path or '.'
-    local search_pattern = opts.pattern or '' -- Default pattern to find all files
     local results = {}
 
     local picker = pickers.new(opts, {
@@ -57,40 +56,39 @@ function M.find_remote_files(opts)
         return
     end
 
-    -- Perform remote search using distant:wrap to generate the command string
-    local wrapped_cmd = distant:wrap({
+    -- Perform remote search using distant:spawn_wrap to execute 'find' on the remote machine
+    distant:spawn_wrap({
         cmd = { "find", remote_path, "-type", "f" },
         shell = true,
-    })
-
-    if not wrapped_cmd then
-        vim.notify("Error wrapping remote command", vim.log.levels.ERROR)
-        return
-    end
-
-    -- Execute the wrapped command
-    local output = vim.fn.systemlist(wrapped_cmd)
-    if vim.v.shell_error ~= 0 then
-        vim.notify("Error executing remote command: " .. table.concat(output, "\n"), vim.log.levels.ERROR)
-        return
-    end
-
-    for _, line in ipairs(output) do
-        if line ~= "" then
-            table.insert(results, line)
+    }, function(err, job)
+        if err then
+            vim.notify("Error spawning remote command: " .. vim.inspect(err), vim.log.levels.ERROR)
+            return
         end
-    end
 
-    picker:refresh(finders.new_table {
-        results = results,
-        entry_maker = function(entry)
-            return {
-                value = entry,
-                display = entry,
-                ordinal = entry,
-            }
-        end
-    })
+        -- Capture command output asynchronously
+        job:on_stdout(function(_, data)
+            if data then
+                for _, line in ipairs(data) do
+                    if line ~= "" then
+                        table.insert(results, line)
+                    end
+                end
+                picker:refresh(finders.new_table {
+                    results = results,
+                    entry_maker = function(entry)
+                        return {
+                            value = entry,
+                            display = entry,
+                            ordinal = entry,
+                        }
+                    end
+                })
+            end
+        end)
+
+        job:start()
+    end)
 end
 
 -- Setup function
