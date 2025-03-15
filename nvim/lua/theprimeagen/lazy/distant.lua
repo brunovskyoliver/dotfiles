@@ -11,20 +11,11 @@ _G.statusline = function()
     return ('%s %s'):format(ICON, destination.host)
 end
 
-return {
-
-    'chipsenkbeil/distant.nvim',
-    branch = 'v0.3',
-    config = function()
-        require('distant'):setup()
-    end
-}
 local telescope = require('telescope')
 local distant = require('distant')
 local actions = require('telescope.actions')
 local action_state = require('telescope.actions.state')
 
--- Custom function to find files on a remote host
 local function remote_find_files(opts)
   opts = opts or {}
   telescope.pickers.new(opts, {
@@ -49,3 +40,11 @@ end
 -- Keybinding to trigger the remote file finder
 vim.api.nvim_set_keymap('n', '<leader>rf', '<cmd>lua remote_find_files()<CR>', { noremap = true, silent = true })
 
+return {
+
+    'chipsenkbeil/distant.nvim',
+    branch = 'v0.3',
+    config = function()
+        require('distant'):setup()
+    end
+}
