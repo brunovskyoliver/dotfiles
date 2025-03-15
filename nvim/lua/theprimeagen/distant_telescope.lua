@@ -16,7 +16,7 @@ local action_state = require('telescope.actions.state')
 local pickers = require('telescope.pickers')
 local finders = require('telescope.finders')
 
--- Function to search remote files using :DistantShellCmd and open with :DistantOpen
+-- Function to search remote files using :DistantShell and open with :DistantOpen
 function M.find_remote_files(opts)
     opts = opts or {}
     local remote_path = opts.path or '.'
@@ -57,30 +57,32 @@ function M.find_remote_files(opts)
         return
     end
 
-    -- Perform remote search using :DistantShellCmd find
-    local output = vim.fn.systemlist(string.format(":DistantShellCmd find %s -type f", remote_path))
-
-    if vim.v.shell_error ~= 0 then
-        vim.notify("DistantShellCmd error: " .. table.concat(output, "\n"), vim.log.levels.ERROR)
-        return
-    end
-
-    for _, line in ipairs(output) do
-        if line ~= "" then
-            table.insert(results, line)
+    -- Perform remote search using :DistantShell to run 'find' on the remote machine
+    distant.shell({
+        cmd = string.format("find %s -type f", remote_path),
+    }, function(err, data)
+        if err then
+            vim.notify("DistantShell error: " .. vim.inspect(err), vim.log.levels.ERROR)
+            return
         end
-    end
 
-    picker:refresh(finders.new_table {
-        results = results,
-        entry_maker = function(entry)
-            return {
-                value = entry,
-                display = entry,
-                ordinal = entry,
-            }
+        for _, line in ipairs(data) do
+            if line ~= "" then
+                table.insert(results, line)
+            end
         end
-    })
+
+        picker:refresh(finders.new_table {
+            results = results,
+            entry_maker = function(entry)
+                return {
+                    value = entry,
+                    display = entry,
+                    ordinal = entry,
+                }
+            end
+        })
+    end)
 end
 
 -- Setup function
