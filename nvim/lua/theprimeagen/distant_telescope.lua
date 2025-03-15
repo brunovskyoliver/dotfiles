@@ -56,7 +56,7 @@ function M.find_remote_files(opts)
         return
     end
 
-    -- Perform remote search using distant:spawn_wrap to execute 'find' on the remote machine
+    -- Spawn the remote command and capture output asynchronously
     distant:spawn_wrap({
         cmd = { "find", remote_path, "-type", "f" },
         shell = true,
@@ -67,7 +67,7 @@ function M.find_remote_files(opts)
         end
 
         -- Capture command output asynchronously
-        job:on_stdout(function(_, data)
+        job:read_start(function(_, data)
             if data then
                 for _, line in ipairs(data) do
                     if line ~= "" then
@@ -86,8 +86,6 @@ function M.find_remote_files(opts)
                 })
             end
         end)
-
-        job:start()
     end)
 end
 
