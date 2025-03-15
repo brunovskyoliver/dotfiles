@@ -1,24 +1,24 @@
 
 -- Ensure Telescope and Distant are properly loaded
-local ok_telescope, telescope = pcall(require, 'telescope')
-local ok_distant, distant = pcall(require, 'distant')
-
-if not ok_telescope then
-    vim.notify("Telescope is not installed or failed to load!", vim.log.levels.ERROR)
-    return
-end
-
-if not ok_distant then
-    vim.notify("Distant.nvim is not installed or failed to load!", vim.log.levels.ERROR)
-    return
-end
-
-local actions = require('telescope.actions')
-local action_state = require('telescope.actions.state')
-
 -- Define the function to find remote files
 local function remote_find_files(opts)
     opts = opts or {}
+
+    local ok_telescope, telescope = pcall(require, 'telescope')
+    local ok_distant, distant = pcall(require, 'distant')
+
+    if not ok_telescope then
+        vim.notify("Telescope is not installed or failed to load!", vim.log.levels.ERROR)
+        return
+    end
+
+    if not ok_distant then
+        vim.notify("Distant.nvim is not installed or failed to load!", vim.log.levels.ERROR)
+        return
+    end
+
+    local actions = require('telescope.actions')
+    local action_state = require('telescope.actions.state')
 
     -- Check if the telescope pickers module is available
     if not telescope.pickers then
