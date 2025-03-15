@@ -16,10 +16,11 @@ local action_state = require('telescope.actions.state')
 local pickers = require('telescope.pickers')
 local finders = require('telescope.finders')
 
--- Function to search remote files using :DistantShell and open with :DistantOpen
+-- Function to search remote files using :DistantShellCmd and open with :DistantOpen
 function M.find_remote_files(opts)
     opts = opts or {}
     local remote_path = opts.path or '.'
+    local search_pattern = opts.pattern or '' -- Default pattern to find all files
     local results = {}
 
     local picker = pickers.new(opts, {
@@ -56,36 +57,35 @@ function M.find_remote_files(opts)
         return
     end
 
-    -- Perform remote search using :DistantShell find
-    vim.cmd(string.format(":DistantShell find %s -type f", remote_path))
+    -- Perform remote search using :DistantShellCmd find
+    local output = vim.fn.systemlist(string.format(":DistantShellCmd find %s -type f", remote_path))
 
-    -- Capture command output from message history
-    vim.defer_fn(function()
-        local output = vim.fn.execute("messages")
-        for line in output:gmatch("[^\r\n]+") do
-            if line ~= "" then
-                table.insert(results, line)
-            end
+    if vim.v.shell_error ~= 0 then
+        vim.notify("DistantShellCmd error: " .. table.concat(output, "\n"), vim.log.levels.ERROR)
+        return
+    end
+
+    for _, line in ipairs(output) do
+        if line ~= "" then
+            table.insert(results, line)
         end
+    end
 
-        -- Refresh picker with results
-        picker:refresh(finders.new_table {
-            results = results,
-            entry_maker = function(entry)
-                return {
-                    value = entry,
-                    display = entry,
-                    ordinal = entry,
-                }
-            end
-        })
-    end, 500) -- Wait 500ms for command output
+    picker:refresh(finders.new_table {
+        results = results,
+        entry_maker = function(entry)
+            return {
+                value = entry,
+                display = entry,
+                ordinal = entry,
+            }
+        end
+    })
 end
 
 -- Setup function
 function M.setup()
-    -- Ensure Distant is initialized properly
-    distant.setup({})
+    -- Nothing special needed here
 end
 
 return M
