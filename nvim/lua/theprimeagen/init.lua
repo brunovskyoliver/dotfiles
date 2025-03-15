@@ -4,7 +4,7 @@ require("theprimeagen.lazy_init")
 
 
 -- Load the module
-local distant_telescope = require('distant_telescope')
+local distant_telescope = require('theprimeagen.distant_telescope')
 distant_telescope.setup()
 
 -- Create a command to make it easier to use
