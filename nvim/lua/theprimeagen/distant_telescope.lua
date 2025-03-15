@@ -16,6 +16,11 @@ local action_state = require('telescope.actions.state')
 local pickers = require('telescope.pickers')
 local finders = require('telescope.finders')
 
+-- Ensure distant is initialized before connecting
+if distant then
+    distant.setup({}) -- Ensures distant is properly initialized
+end
+
 -- Function to list remote files
 function M.find_remote_files(opts)
     opts = opts or {}
@@ -44,45 +49,53 @@ function M.find_remote_files(opts)
         return
     end
 
-    -- Fetch files asynchronously from Distant
-    distant.connect({}, function(err, conn)
-        if err or not conn then
-            vim.notify("Error connecting to distant: " .. vim.inspect(err), vim.log.levels.ERROR)
+    -- Ensure distant is running before connecting
+    distant.launch({}, function(launch_err)
+        if launch_err then
+            vim.notify("Error launching distant: " .. vim.inspect(launch_err), vim.log.levels.ERROR)
             return
         end
 
-        conn:send({
-            type = "list",
-            path = remote_path
-        }, function(resp_err, result)
-            if resp_err or not result then
-                vim.notify("Error listing remote files: " .. vim.inspect(resp_err), vim.log.levels.ERROR)
+        -- Fetch files asynchronously from Distant
+        distant.connect({}, function(err, conn)
+            if err or not conn then
+                vim.notify("Error connecting to distant: " .. vim.inspect(err), vim.log.levels.ERROR)
                 return
             end
 
-            local results = {}
-            for _, file in ipairs(result) do
-                table.insert(results, file.path)
-            end
-
-            -- Update the picker with actual results
-            picker:refresh(finders.new_table {
-                results = results,
-                entry_maker = function(entry)
-                    return {
-                        value = entry,
-                        display = entry,
-                        ordinal = entry,
-                    }
+            conn:send({
+                type = "list",
+                path = remote_path
+            }, function(resp_err, result)
+                if resp_err or not result then
+                    vim.notify("Error listing remote files: " .. vim.inspect(resp_err), vim.log.levels.ERROR)
+                    return
                 end
-            })
+
+                local results = {}
+                for _, file in ipairs(result) do
+                    table.insert(results, file.path)
+                end
+
+                -- Update the picker with actual results
+                picker:refresh(finders.new_table {
+                    results = results,
+                    entry_maker = function(entry)
+                        return {
+                            value = entry,
+                            display = entry,
+                            ordinal = entry,
+                        }
+                    end
+                })
+            end)
         end)
     end)
 end
 
 -- Setup function
 function M.setup()
-    -- Nothing special needed here
+    distant.setup({}) -- Ensure distant is initialized
 end
 
 return M
