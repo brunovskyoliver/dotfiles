@@ -20,7 +20,6 @@ local finders = require('telescope.finders')
 function M.find_remote_files(opts)
     opts = opts or {}
     local remote_path = opts.path or '.'
-    local search_pattern = opts.pattern or '' -- Default pattern to find all files
     local results = {}
 
     local picker = pickers.new(opts, {
@@ -58,34 +57,36 @@ function M.find_remote_files(opts)
     end
 
     -- Perform remote search using :DistantShell find
-    local output = vim.fn.systemlist(string.format(":DistantShell find %s -type f", remote_path))
+    vim.cmd(string.format(":DistantShell find %s -type f", remote_path))
 
-    if vim.v.shell_error ~= 0 then
-        vim.notify("DistantShell error: " .. table.concat(output, "\n"), vim.log.levels.ERROR)
-        return
-    end
-
-    for _, line in ipairs(output) do
-        if line ~= "" then
-            table.insert(results, line)
+    -- Capture command output from message history
+    vim.defer_fn(function()
+        local output = vim.fn.execute("messages")
+        for line in output:gmatch("[^\r\n]+") do
+            if line ~= "" then
+                table.insert(results, line)
+            end
         end
-    end
 
-    picker:refresh(finders.new_table {
-        results = results,
-        entry_maker = function(entry)
-            return {
-                value = entry,
-                display = entry,
-                ordinal = entry,
-            }
-        end
-    })
+        -- Refresh picker with results
+        picker:refresh(finders.new_table {
+            results = results,
+            entry_maker = function(entry)
+                return {
+                    value = entry,
+                    display = entry,
+                    ordinal = entry,
+                }
+            end
+        })
+    end, 500) -- Wait 500ms for command output
 end
 
 -- Setup function
 function M.setup()
-    -- Nothing special needed here
+    -- Ensure Distant is initialized properly
+    distant.setup({})
 end
 
 return M
+
