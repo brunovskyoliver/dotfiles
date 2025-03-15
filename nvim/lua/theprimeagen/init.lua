@@ -1,7 +1,12 @@
 require("theprimeagen.set")
 require("theprimeagen.remap")
 require("theprimeagen.lazy_init")
-require('theprimeagen.lazy.distant_telescope')
+
+local remote_finder = require("theprimeagen.remote_finder")
+
+-- Bind the key to the function
+vim.api.nvim_set_keymap('n', '<leader>rf', '<cmd>lua require(\"theprimeagen.remote_finder\").remote_find_files()<CR>', { noremap = true, silent = true })
+
 
 -- DO.not
 -- DO NOT INCLUDE THIS
