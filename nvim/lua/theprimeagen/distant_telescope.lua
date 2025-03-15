@@ -56,36 +56,48 @@ function M.find_remote_files(opts)
         return
     end
 
-    -- Spawn the remote command and capture output asynchronously
+    -- Spawn the remote command asynchronously
     distant:spawn_wrap({
         cmd = { "find", remote_path, "-type", "f" },
         shell = true,
-    }, function(err, job)
-        if err then
-            vim.notify("Error spawning remote command: " .. vim.inspect(err), vim.log.levels.ERROR)
+    }, function(err, wrapped_cmd)
+        if err or not wrapped_cmd then
+            vim.notify("Error wrapping remote command: " .. vim.inspect(err), vim.log.levels.ERROR)
             return
         end
 
-        -- Capture command output asynchronously
-        job:read_start(function(_, data)
-            if data then
-                for _, line in ipairs(data) do
-                    if line ~= "" then
-                        table.insert(results, line)
+        -- Run the wrapped command and capture output asynchronously
+        local job_id = vim.fn.jobstart(wrapped_cmd, {
+            stdout_buffered = true,
+            on_stdout = function(_, data)
+                if data then
+                    for _, line in ipairs(data) do
+                        if line ~= "" then
+                            table.insert(results, line)
+                        end
                     end
+                    picker:refresh(finders.new_table {
+                        results = results,
+                        entry_maker = function(entry)
+                            return {
+                                value = entry,
+                                display = entry,
+                                ordinal = entry,
+                            }
+                        end
+                    })
                 end
-                picker:refresh(finders.new_table {
-                    results = results,
-                    entry_maker = function(entry)
-                        return {
-                            value = entry,
-                            display = entry,
-                            ordinal = entry,
-                        }
-                    end
-                })
+            end,
+            on_stderr = function(_, data)
+                if data then
+                    vim.notify("DistantShell error: " .. table.concat(data, "\n"), vim.log.levels.ERROR)
+                end
             end
-        end)
+        })
+
+        if job_id <= 0 then
+            vim.notify("Failed to start remote job!", vim.log.levels.ERROR)
+        end
     end)
 end
 
