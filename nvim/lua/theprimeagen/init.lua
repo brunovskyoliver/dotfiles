@@ -2,13 +2,15 @@ require("theprimeagen.set")
 require("theprimeagen.remap")
 require("theprimeagen.lazy_init")
 
-require('telescope').load_extension('distant')
-local remote_finder = require("theprimeagen.remote_finder")
 
--- Bind the key to the function
-vim.api.nvim_set_keymap('n', '<leader>rf', '<cmd>lua require(\"theprimeagen.remote_finder\").remote_find_files()<CR>', { noremap = true, silent = true })
+-- Load the module
+local distant_telescope = require('distant_telescope')
+distant_telescope.setup()
 
-
+-- Create a command to make it easier to use
+vim.api.nvim_create_user_command('DistantFiles', function(opts)
+    distant_telescope.find_remote_files({ path = opts.args })
+end, { nargs = '?' })
 -- DO.not
 -- DO NOT INCLUDE THIS
 
