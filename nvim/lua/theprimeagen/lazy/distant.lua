@@ -1,3 +1,12 @@
+
+local telescope = require('telescope')
+local actions = require('telescope.actions')
+local action_state = require('telescope.actions.state')
+
+local distant = require('distant')  -- ensure distant.nvim is required
+
+-- Define the remote_find_files function globally or within a module
+
 function remote_find_files(opts)
   opts = opts or {}
   telescope.pickers.new(opts, {
