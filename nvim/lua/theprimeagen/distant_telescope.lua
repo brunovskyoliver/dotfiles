@@ -16,14 +16,11 @@ local action_state = require('telescope.actions.state')
 local pickers = require('telescope.pickers')
 local finders = require('telescope.finders')
 
--- Function to search remote files using DistantSearch
+-- Function to search remote files using :DistantShell and open with :DistantOpen
 function M.find_remote_files(opts)
     opts = opts or {}
     local remote_path = opts.path or '.'
-    local search_pattern = opts.pattern or '.*' -- Default pattern to match everything
-    local search_target = opts.target or 'contents' -- Default to searching file contents
-    local search_limit = opts.limit or 100 -- Default limit to 100 results
-
+    local search_pattern = opts.pattern or '' -- Default pattern to find all files
     local results = {}
 
     local picker = pickers.new(opts, {
@@ -39,6 +36,17 @@ function M.find_remote_files(opts)
             end
         },
         sorter = conf.generic_sorter(opts),
+        attach_mappings = function(prompt_bufnr, map)
+            local open_file = function()
+                local selection = action_state.get_selected_entry()
+                if selection then
+                    vim.cmd(string.format(':DistantOpen %s', selection.value))
+                end
+            end
+
+            actions.select_default:replace(open_file)
+            return true
+        end
     })
 
     picker:find()
@@ -49,46 +57,35 @@ function M.find_remote_files(opts)
         return
     end
 
-    -- Check if Distant has an active connection
-    distant.api.info(function(err, info)
-        if err or not info then
-            vim.notify("Distant is not connected to any remote server!", vim.log.levels.ERROR)
-            return
-        end
+    -- Perform remote search using :DistantShell find
+    local output = vim.fn.systemlist(string.format(":DistantShell find %s -type f", remote_path))
 
-        -- Perform remote search using :DistantSearch
-        vim.cmd(string.format(":DistantSearch %s path=%s target=%s limit=%d",
-            search_pattern, remote_path, search_target, search_limit))
+    if vim.v.shell_error ~= 0 then
+        vim.notify("DistantShell error: " .. table.concat(output, "\n"), vim.log.levels.ERROR)
+        return
+    end
 
-        -- Capture results dynamically using Vim command output
-        local output = vim.fn.execute("redir => g:search_results | silent! messages | redir END")
-        for line in output:gmatch("[^\r\n]+") do
+    for _, line in ipairs(output) do
+        if line ~= "" then
             table.insert(results, line)
         end
+    end
 
-        -- Refresh picker with new results
-        picker:refresh(finders.new_table {
-            results = results,
-            entry_maker = function(entry)
-                return {
-                    value = entry,
-                    display = entry,
-                    ordinal = entry,
-                }
-            end
-        })
-    end)
+    picker:refresh(finders.new_table {
+        results = results,
+        entry_maker = function(entry)
+            return {
+                value = entry,
+                display = entry,
+                ordinal = entry,
+            }
+        end
+    })
 end
 
 -- Setup function
 function M.setup()
-    -- Ensure distant.nvim is initialized
-    distant.setup({
-        ['*'] = {
-            mode = 'ssh',
-        }
-    })
+    -- Nothing special needed here
 end
 
 return M
-
