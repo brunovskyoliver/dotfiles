@@ -58,7 +58,7 @@ function M.find_remote_files(opts)
     end
 
     -- Perform remote search using :DistantShell to run 'find' on the remote machine
-    distant.shell({
+    distant.run({
         cmd = string.format("find %s -type f", remote_path),
     }, function(err, data)
         if err then
