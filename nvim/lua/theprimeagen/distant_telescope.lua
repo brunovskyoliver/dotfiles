@@ -49,38 +49,45 @@ function M.find_remote_files(opts)
         return
     end
 
-    -- Perform remote search using :DistantSearch asynchronously
-    vim.fn.jobstart({"nvim", "--headless", "-c", string.format(":DistantSearch %s path=%s target=%s limit=%d",
-        search_pattern, remote_path, search_target, search_limit)}, {
-        stdout_buffered = true,
-        on_stdout = function(_, data)
-            if data then
-                for _, line in ipairs(data) do
-                    table.insert(results, line)
-                end
-                picker:refresh(finders.new_table {
-                    results = results,
-                    entry_maker = function(entry)
-                        return {
-                            value = entry,
-                            display = entry,
-                            ordinal = entry,
-                        }
-                    end
-                })
-            end
-        end,
-        on_stderr = function(_, data)
-            if data then
-                vim.notify("DistantSearch error: " .. table.concat(data, "\n"), vim.log.levels.ERROR)
-            end
+    -- Check if Distant has an active connection
+    distant.api.info(function(err, info)
+        if err or not info then
+            vim.notify("Distant is not connected to any remote server!", vim.log.levels.ERROR)
+            return
         end
-    })
+
+        -- Perform remote search using :DistantSearch
+        vim.cmd(string.format(":DistantSearch %s path=%s target=%s limit=%d",
+            search_pattern, remote_path, search_target, search_limit))
+
+        -- Capture results dynamically using Vim command output
+        local output = vim.fn.execute("redir => g:search_results | silent! messages | redir END")
+        for line in output:gmatch("[^\r\n]+") do
+            table.insert(results, line)
+        end
+
+        -- Refresh picker with new results
+        picker:refresh(finders.new_table {
+            results = results,
+            entry_maker = function(entry)
+                return {
+                    value = entry,
+                    display = entry,
+                    ordinal = entry,
+                }
+            end
+        })
+    end)
 end
 
 -- Setup function
 function M.setup()
-    -- Nothing special needed here
+    -- Ensure distant.nvim is initialized
+    distant.setup({
+        ['*'] = {
+            mode = 'ssh',
+        }
+    })
 end
 
 return M
