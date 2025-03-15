@@ -59,3 +59,5 @@ vim.api.nvim_create_autocmd("BufWinEnter", {
   end,
 })
 vim.g.loaded_python3_provider = 0
+vim.opt.statusline = '%!v:lua.statusline()'
+
