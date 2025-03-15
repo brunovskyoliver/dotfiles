@@ -16,7 +16,7 @@ local action_state = require('telescope.actions.state')
 local pickers = require('telescope.pickers')
 local finders = require('telescope.finders')
 
--- Function to search remote files using :DistantShell and open with :DistantOpen
+-- Function to search remote files using distant:spawn_wrap and open with :DistantOpen
 function M.find_remote_files(opts)
     opts = opts or {}
     local remote_path = opts.path or '.'
@@ -57,16 +57,24 @@ function M.find_remote_files(opts)
         return
     end
 
-    -- Perform remote search using :DistantShell to run 'find' on the remote machine
-    distant.spawn({
-        cmd = string.format("find %s -type f", remote_path),
-    }, function(err, data)
+    -- Perform remote search using distant:spawn_wrap to run 'find' on the remote machine
+    distant:spawn_wrap({
+        cmd = { "find", remote_path, "-type", "f" },
+        shell = true,
+    }, function(err, wrapped_cmd)
         if err then
-            vim.notify("DistantShell error: " .. vim.inspect(err), vim.log.levels.ERROR)
+            vim.notify("Error wrapping remote command: " .. vim.inspect(err), vim.log.levels.ERROR)
             return
         end
 
-        for _, line in ipairs(data) do
+        -- Execute the wrapped command
+        local output = vim.fn.systemlist(wrapped_cmd)
+        if vim.v.shell_error ~= 0 then
+            vim.notify("Error executing remote command: " .. table.concat(output, "\n"), vim.log.levels.ERROR)
+            return
+        end
+
+        for _, line in ipairs(output) do
             if line ~= "" then
                 table.insert(results, line)
             end
@@ -91,4 +99,3 @@ function M.setup()
 end
 
 return M
-
