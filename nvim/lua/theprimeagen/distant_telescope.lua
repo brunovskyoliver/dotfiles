@@ -21,15 +21,10 @@ function M.find_remote_files(opts)
     opts = opts or {}
     local remote_path = opts.path or '.'
 
-    -- Use the simplest approach possible
-    -- This is a synchronous placeholder. For Distant's actual API, you'll need to replace this
-    local results = {}
-
-    -- Create a picker that waits for results
     local picker = pickers.new(opts, {
         prompt_title = 'Remote Files',
         finder = finders.new_table {
-            results = {"Loading remote files..."},
+            results = {"Fetching remote files..."},
             entry_maker = function(entry)
                 return {
                     value = entry,
@@ -41,25 +36,28 @@ function M.find_remote_files(opts)
         sorter = conf.generic_sorter(opts),
     })
 
-    -- Start the picker
     picker:find()
 
-    -- Now fetch the files (this should be adjusted to distant.nvim's actual API)
-    distant.core.connect(function()
-        distant.files.list({ path = remote_path }, function(err, files)
+    -- Fetch files asynchronously from Distant
+    distant:connect(function(err, conn)
+        if err then
+            vim.notify("Error connecting to distant: " .. vim.inspect(err), vim.log.levels.ERROR)
+            return
+        end
+
+        conn:list({ path = remote_path }, function(err, files)
             if err then
                 vim.notify("Error listing remote files: " .. vim.inspect(err), vim.log.levels.ERROR)
                 return
             end
 
-            -- Get the results
-            results = {}
+            local results = {}
             for _, file in ipairs(files) do
                 table.insert(results, file.path)
             end
 
             -- Update the picker with actual results
-            picker.finder = finders.new_table {
+            picker:refresh(finders.new_table {
                 results = results,
                 entry_maker = function(entry)
                     return {
@@ -68,10 +66,7 @@ function M.find_remote_files(opts)
                         ordinal = entry,
                     }
                 end
-            }
-
-            -- Refresh the picker
-            picker:refresh()
+            })
         end)
     end)
 end
@@ -82,3 +77,4 @@ function M.setup()
 end
 
 return M
+
