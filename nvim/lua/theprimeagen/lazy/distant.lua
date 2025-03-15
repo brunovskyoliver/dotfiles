@@ -1,6 +1,4 @@
-
-
-local function remote_find_files(opts)
+function remote_find_files(opts)
   opts = opts or {}
   telescope.pickers.new(opts, {
     prompt_title = 'Remote Files',
