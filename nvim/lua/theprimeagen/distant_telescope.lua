@@ -50,6 +50,10 @@ function M.find_remote_files(opts)
     opts = opts or {}
 
     local results = get_remote_files()
+    if not results or #results == 0 then
+        vim.notify("No remote files found!", vim.log.levels.WARN)
+        return
+    end
 
     pickers.new(opts, {
         prompt_title = "Remote Files",
@@ -67,10 +71,25 @@ function M.find_remote_files(opts)
         attach_mappings = function(prompt_bufnr, map)
             local open_file = function()
                 local selection = action_state.get_selected_entry()
-                if selection then
-                    vim.cmd(string.format(':DistantOpen %s', selection.value))
+                if not selection or not selection.value then
+                    vim.notify("Invalid file selection!", vim.log.levels.ERROR)
+                    return
+                end
+
+                -- Ensure the file path is properly formatted for :DistantOpen
+                local remote_path = selection.value
+                remote_path = remote_path:gsub("//", "/") -- Remove double slashes
+
+                -- Run DistantOpen safely
+                local success, err = pcall(function()
+                    vim.cmd(string.format(':DistantOpen %s', remote_path))
+                end)
+
+                if not success then
+                    vim.notify("Failed to open file with DistantOpen: " .. err, vim.log.levels.ERROR)
                 end
             end
+
             actions.select_default:replace(open_file)
             return true
         end
