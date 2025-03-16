@@ -10,6 +10,27 @@ vim.api.nvim_create_user_command('DistantFiles', function(opts)
     distant_telescope.find_remote_files({ path = opts.args })
 end, { nargs = '?' })
 vim.keymap.set('n', '<leader>rf', '<Cmd>DistantFiles<CR>', { desc = 'Find remote files' })
+
+function DistantCdToCurrentFile()
+    -- Get the full path of the current file
+    local file_path = vim.fn.expand("%:p:h")
+
+    -- Check if the file path is valid
+    if file_path == "" then
+        print("No file path detected")
+        return
+    end
+
+    -- Run DistantShell to change to the file's directory
+    vim.cmd(string.format(':DistantShell cd "%s"', file_path))
+end
+
+-- Keybinding to run the function
+vim.api.nvim_set_keymap("n", "<leader>dc", ":lua DistantCdToCurrentFile()<CR>", { noremap = true, silent = true })
+
+
+
+
 -- DO.not
 -- DO NOT INCLUDE THIS
 
@@ -48,7 +69,7 @@ autocmd('TextYankPost', {
     end,
 })
 
-autocmd({"BufWritePre"}, {
+autocmd({ "BufWritePre" }, {
     group = ThePrimeagenGroup,
     pattern = "*",
     command = [[%s/\s\+$//e]],
@@ -87,16 +108,15 @@ vim.g.netrw_browse_split = 0
 vim.g.netrw_banner = 0
 vim.g.netrw_winsize = 25
 vim.api.nvim_create_autocmd("VimEnter", {
-        callback = function()
-                if vim.fn.expand("%") == "" then
-                        vim.bo.modified = false
-                end
-        end,
+    callback = function()
+        if vim.fn.expand("%") == "" then
+            vim.bo.modified = false
+        end
+    end,
 })
 
 vim.api.nvim_create_user_command("Glow", function()
-  local file = vim.fn.expand("%:p")
-  local cmd = "glow " .. vim.fn.shellescape(file)
-  vim.cmd("split | terminal " .. cmd)
+    local file = vim.fn.expand("%:p")
+    local cmd = "glow " .. vim.fn.shellescape(file)
+    vim.cmd("split | terminal " .. cmd)
 end, {})
-
