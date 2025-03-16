@@ -17,23 +17,24 @@ local action_state = require('telescope.actions.state')
 local pickers = require('telescope.pickers')
 local finders = require('telescope.finders')
 
--- Function to get remote connection details from Distant
-local function get_distant_connection()
-    distant.api.info(function(err, info)
-        if err or not info or not info.connection then
-            vim.notify("Distant is not connected!", vim.log.levels.ERROR)
-            return nil, nil
-        end
-        local user = info.connection.username or ""
-        local host = info.connection.host or ""
-        return user, host
-    end)
+-- Function to get the remote IP from /tmp/last_ip
+local function get_remote_ip()
+    local ip_file = "/tmp/last_ip"
+    local file = io.open(ip_file, "r")
+    if not file then
+        vim.notify("Could not read remote IP from " .. ip_file, vim.log.levels.ERROR)
+        return nil
+    end
+    local ip = file:read("*all"):gsub("\n", "")
+    file:close()
+    return ip
 end
 
 -- Function to fetch remote files using SSH and Plenary
 local function get_remote_files()
-    local user, host = get_distant_connection()
-    if not user or not host then return {} end
+    local user = "brunovsky"
+    local host = get_remote_ip()
+    if not host then return {} end
 
     local job = sys:new({
         command = "ssh",
