@@ -1,18 +1,21 @@
 
 -- In file: lua/distant_telescope.lua
 local M = {}
+
 -- Ensure Telescope, Distant, and Plenary are properly loaded
 local has_telescope, telescope = pcall(require, 'telescope')
-local has_distant, distant = pcall(require, 'distant')
+local has_distant, _ = pcall(require, 'distant')
 local has_plenary, sys = pcall(require, 'plenary.job')
 if not has_telescope or not has_distant or not has_plenary then
     return M
 end
+
 local conf = require('telescope.config').values
 local actions = require('telescope.actions')
 local action_state = require('telescope.actions.state')
 local pickers = require('telescope.pickers')
 local finders = require('telescope.finders')
+
 -- Function to get the remote IP from /tmp/last_ip
 local function get_remote_ip()
     local ip_file = "/tmp/last_ip"
@@ -25,6 +28,7 @@ local function get_remote_ip()
     file:close()
     return ip
 end
+
 -- Function to fetch remote files using SSH and Plenary
 local function get_remote_files()
     local user = "brunovsky"
@@ -38,6 +42,7 @@ local function get_remote_files()
     job:join()
     return job:result()
 end
+
 -- Function to create a remote file finder
 function M.find_remote_files(opts)
     opts = opts or {}
@@ -46,6 +51,7 @@ function M.find_remote_files(opts)
         vim.notify("No remote files found!", vim.log.levels.WARN)
         return
     end
+
     pickers.new(opts, {
         prompt_title = "Remote Files",
         finder = finders.new_table({
@@ -70,38 +76,19 @@ function M.find_remote_files(opts)
                     return
                 end
 
-                -- Ensure the file path is properly formatted for :DistantOpen
-                local remote_path = selection.value
-                remote_path = remote_path:gsub("//", "/") -- Remove double slashes
+                -- Clean up double slashes just in case
+                local remote_path = selection.value:gsub("//", "/")
 
-                -- Use vim.schedule to delay the execution slightly
+                -- Use vim.schedule to avoid race conditions when closing the picker
                 vim.schedule(function()
-                    -- Use the Distant API directly instead of vim.cmd
                     local success, err = pcall(function()
-                        -- Check if the distant connection is active
-                        if distant.session and distant.session.active then
-                            -- Get the host from the IP
-                            local host = get_remote_ip()
-                            if not host then
-                                vim.notify("Failed to get remote IP", vim.log.levels.ERROR)
-                                return
-                            end
-
-                            -- Use the Distant API directly to open the file
-                            distant.editor.open({
-                                bufnr = -1, -- Let distant create a new buffer
-                                destination = {
-                                    path = remote_path,
-                                    host = host
-                                }
-                            })
-                        else
-                            vim.notify("Distant session is not active", vim.log.levels.ERROR)
-                        end
+                        -- Use the built-in command instead of the Distant Lua API
+                        -- This should open the file in the current buffer
+                        vim.cmd(('DistantOpen "%s"'):format(remote_path))
                     end)
 
                     if not success then
-                        vim.notify("Failed to open file with Distant API: " .. tostring(err), vim.log.levels.ERROR)
+                        vim.notify("Failed to open file with :DistantOpen:\n" .. tostring(err), vim.log.levels.ERROR)
                     end
                 end)
             end
@@ -111,8 +98,11 @@ function M.find_remote_files(opts)
         end
     }):find()
 end
+
 -- Setup function
 function M.setup()
     -- Nothing special needed here
 end
+
 return M
+
