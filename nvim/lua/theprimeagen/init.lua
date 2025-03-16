@@ -81,10 +81,17 @@ autocmd('TextYankPost', {
     end,
 })
 
-autocmd({ "BufWritePre" }, {
+
+autocmd("BufWritePre", {
     group = ThePrimeagenGroup,
     pattern = "*",
-    command = [[%s/\s\+$//e]],
+    callback = function()
+        -- Trim trailing whitespace
+        vim.cmd([[ %s/\s\+$//e ]])
+
+        -- Run conform.nvim formatting
+        require("conform").format()
+    end,
 })
 
 autocmd('BufEnter', {
