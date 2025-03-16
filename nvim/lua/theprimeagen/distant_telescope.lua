@@ -36,7 +36,7 @@ local function get_remote_files()
     if not host then return {} end
     local job = sys:new({
         command = "ssh",
-        args = { user .. "@" .. host, "find", "/", "-type", "d" },
+        args = { user .. "@" .. host, "find", "/", "-type", "f" },
     })
     job:start()
     job:join()
