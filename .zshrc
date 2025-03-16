@@ -158,5 +158,23 @@ export LDFLAGS="-L/opt/homebrew/opt/tcl-tk/lib"
 export CPPFLAGS="-I/opt/homebrew/opt/tcl-tk/include"
 export PKG_CONFIG_PATH="/opt/homebrew/opt/tcl-tk/lib/pkgconfig"
 export PATH="/usr/local/bin:$PATH"
+tre() {
+    command tre "$@" -e  # Run tre with args and enable index mode
 
-tre() { command tre "$@" -e && source "/tmp/tre_aliases_$USER" 2>/dev/null; }
+    # Source the generated aliases from /tmp
+    source "/tmp/tre_aliases_$USER" 2>/dev/null
+
+    # Prompt user for file index
+    echo -n "Enter file index to open in nvim: "
+    read index
+
+    # Resolve the file path from the generated aliases
+    selected_file=$(eval echo "\$tre_$index")
+
+    if [[ -f "$selected_file" ]]; then
+        nvim "$selected_file"
+    else
+        echo "Invalid selection or file does not exist."
+    fi
+}
+
