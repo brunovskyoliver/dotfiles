@@ -17,6 +17,11 @@ return {
     config = function()
         require("conform").setup({
             formatters_by_ft = {
+                xml = { "xmlformatter" },
+            },
+            format_on_save = { -- Automatically format on save
+                        timeout_ms = 1000,
+                        lsp_fallback = true,
             }
         })
         local cmp = require('cmp')
