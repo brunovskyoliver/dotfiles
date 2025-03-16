@@ -11,8 +11,7 @@ vim.api.nvim_create_user_command('DistantFiles', function(opts)
 end, { nargs = '?' })
 vim.keymap.set('n', '<leader>rf', '<Cmd>DistantFiles<CR>', { desc = 'Find remote files' })
 
-
-function DistantCdToCurrentFile()
+function DistantCdToCurrentFileInNewTab()
     -- Get the full path of the currently open file
     local file_path = vim.fn.expand("%:p:h")
 
@@ -31,15 +30,15 @@ function DistantCdToCurrentFile()
         return
     end
 
-    -- Spawn a remote shell and change to the file's directory
-    local command = string.format(':DistantShell cd "%s" && exec $SHELL', fixed_path)
-    vim.cmd(command)
+    -- Open a new tab and start DistantShell in the correct directory
+    vim.cmd("tabnew") -- Open a new tab
+    vim.cmd(string.format(":DistantShell cd \"%s\" && exec $SHELL", fixed_path))
 
-    print("Opened DistantShell in:", fixed_path)
+    print("Opened DistantShell in a new tab:", fixed_path)
 end
 
 -- Keybinding to run the function
-vim.api.nvim_set_keymap("n", "<leader>dc", ":lua DistantCdToCurrentFile()<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<leader>dc", ":lua DistantCdToCurrentFileInNewTab()<CR>", { noremap = true, silent = true })
 
 
 
