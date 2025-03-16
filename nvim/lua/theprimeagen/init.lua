@@ -11,18 +11,31 @@ vim.api.nvim_create_user_command('DistantFiles', function(opts)
 end, { nargs = '?' })
 vim.keymap.set('n', '<leader>rf', '<Cmd>DistantFiles<CR>', { desc = 'Find remote files' })
 
+
 function DistantCdToCurrentFile()
-    -- Get the full path of the current file
+    -- Get the full path of the currently open file
     local file_path = vim.fn.expand("%:p:h")
 
-    -- Check if the file path is valid
-    if file_path == "" then
-        print("No file path detected")
+    -- Ensure we are in a Distant session
+    if file_path:match("^term://") then
+        print("This command should be used on a remote Distant file, not a local terminal.")
         return
     end
 
-    -- Run DistantShell to change to the file's directory
-    vim.cmd(string.format(':DistantShell cd "%s"', file_path))
+    -- Fix Distant path issues: Remove "distant://<ID>://"
+    local fixed_path = file_path:gsub("^distant://%d+://", "")
+
+    -- Validate extracted path
+    if fixed_path == "" or fixed_path == file_path then
+        print("Could not resolve a valid remote path.")
+        return
+    end
+
+    -- Spawn a remote shell and change to the file's directory
+    local command = string.format(':DistantShell cd "%s" && exec $SHELL', fixed_path)
+    vim.cmd(command)
+
+    print("Opened DistantShell in:", fixed_path)
 end
 
 -- Keybinding to run the function
