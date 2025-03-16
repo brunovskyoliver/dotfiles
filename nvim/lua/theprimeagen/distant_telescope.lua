@@ -19,12 +19,15 @@ local finders = require('telescope.finders')
 
 -- Function to get remote connection details from Distant
 local function get_distant_connection()
-    local info = distant.api.info()
-    if not info or not info.client then
-        vim.notify("Distant is not connected!", vim.log.levels.ERROR)
-        return nil, nil
-    end
-    return info.client.username, info.client.host
+    distant.api.info(function(err, info)
+        if err or not info or not info.connection then
+            vim.notify("Distant is not connected!", vim.log.levels.ERROR)
+            return nil, nil
+        end
+        local user = info.connection.username or ""
+        local host = info.connection.host or ""
+        return user, host
+    end)
 end
 
 -- Function to fetch remote files using SSH and Plenary
