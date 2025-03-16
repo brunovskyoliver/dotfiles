@@ -18,10 +18,10 @@ local pickers = require('telescope.pickers')
 local finders = require('telescope.finders')
 
 -- SSH connection details (update as needed)
-local user = "your_username"
-local host = "your_remote_host"
+local user = "brunovsky"
+local host = "172.19.1.80"
 local remote_command = "ssh"
-local remote_args = { user .. "@" .. host, "find", "/", "-type", "f" }
+local remote_args = { user .. "@" .. host, "find", "/home/brunovsky", "-type", "f" }
 
 -- Function to fetch remote files using SSH and Plenary
 local function get_remote_files()
