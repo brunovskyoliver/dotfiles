@@ -148,7 +148,7 @@ if [ -f '/Users/oliver/Documents/google-cloud-sdk/completion.zsh.inc' ]; then . 
 alias gcssh='gcloud compute ssh --zone "europe-north1-a" "debianvm" --project "podman-417414" && ssh-add -K -'
 
 alias weather='curl wttr.in'
-
+alias m='insect'
 alias pd='cd ~/Documents/Programming'
 export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
 eval "$(zoxide init zsh)"
