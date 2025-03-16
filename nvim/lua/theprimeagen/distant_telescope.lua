@@ -1,8 +1,6 @@
 
--- In file: lua/distant_telescope.lua
 local M = {}
 
--- Ensure Telescope, Distant, and Plenary are properly loaded
 local has_telescope, telescope = pcall(require, 'telescope')
 local has_distant, _ = pcall(require, 'distant')
 local has_plenary, sys = pcall(require, 'plenary.job')
@@ -16,7 +14,6 @@ local action_state = require('telescope.actions.state')
 local pickers = require('telescope.pickers')
 local finders = require('telescope.finders')
 
--- Function to get the remote IP from /tmp/last_ip
 local function get_remote_ip()
     local ip_file = "/tmp/last_ip"
     local file = io.open(ip_file, "r")
@@ -29,7 +26,6 @@ local function get_remote_ip()
     return ip
 end
 
--- Function to fetch remote files using SSH and Plenary
 local function get_remote_files()
     local user = "brunovsky"
     local host = get_remote_ip()
@@ -43,7 +39,6 @@ local function get_remote_files()
     return job:result()
 end
 
--- Function to create a remote file finder
 function M.find_remote_files(opts)
     opts = opts or {}
     local results = get_remote_files()
@@ -67,7 +62,6 @@ function M.find_remote_files(opts)
         sorter = conf.generic_sorter(opts),
         attach_mappings = function(prompt_bufnr, map)
             local open_file = function()
-                -- Close the telescope picker first to avoid buffer conflicts
                 actions.close(prompt_bufnr)
 
                 local selection = action_state.get_selected_entry()
@@ -76,14 +70,10 @@ function M.find_remote_files(opts)
                     return
                 end
 
-                -- Clean up double slashes just in case
                 local remote_path = selection.value:gsub("//", "/")
 
-                -- Use vim.schedule to avoid race conditions when closing the picker
                 vim.schedule(function()
                     local success, err = pcall(function()
-                        -- Use the built-in command instead of the Distant Lua API
-                        -- This should open the file in the current buffer
                         vim.cmd(('DistantOpen "%s"'):format(remote_path))
                     end)
 
@@ -99,9 +89,7 @@ function M.find_remote_files(opts)
     }):find()
 end
 
--- Setup function
 function M.setup()
-    -- Nothing special needed here
 end
 
 return M
