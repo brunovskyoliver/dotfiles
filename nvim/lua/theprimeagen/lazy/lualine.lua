@@ -35,8 +35,7 @@ return {
         -- Attempt to require the Spotify status function
         local ok, spotify_commands = pcall(require, "spotify.commands")
         if ok and spotify_commands and spotify_commands.statusline then
-            -- Insert Spotify status at position 1 in lualine_y, pushing everything else back
-            table.insert(lualine_opts.sections.lualine_y, 1, spotify_commands.statusline)
+            table.insert(lualine_opts.sections.lualine_x, 1, spotify_commands.statusline)
         end
 
         require("lualine").setup(lualine_opts)
