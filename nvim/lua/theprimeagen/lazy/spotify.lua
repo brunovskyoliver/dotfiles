@@ -1,5 +1,4 @@
 -- lazy
-local spotify_status = require('spotify.commands').statusline
 return {
     'spinalshock/spotify.nvim',
     dependencies = {
@@ -15,11 +14,6 @@ return {
             -- add more custom keymaps as needed.
         },
     },
-    require('lualine').setup {
-        sections = {
-            lualine_y = { spotify_status }
-        }
-    }-
     config = function(_, opts)
         require('spotify').setup(opts) -- pass user options to the plugin setup
     end,
