@@ -2,11 +2,10 @@ return {
     "nvim-lualine/lualine.nvim",
     dependencies = {
         "nvim-tree/nvim-web-devicons",
-        -- Add the spotify plugin here so it’s loaded before we configure lualine
         "spinalshock/spotify.nvim",
     },
     config = function()
-        -- Your base lualine config
+        -- Your existing lualine config
         local lualine_opts = {
             options = {
                 theme = "gruvbox",
@@ -18,6 +17,7 @@ return {
                 lualine_b = { "branch" },
                 lualine_c = { "filename" },
                 lualine_x = { "encoding", "fileformat", "filetype" },
+                -- <=== We'll prepend Spotify status to `lualine_y` below
                 lualine_y = { "progress" },
                 lualine_z = { "location" },
             },
@@ -32,11 +32,11 @@ return {
             extensions = { "fugitive", "nvim-tree" },
         }
 
-        -- Try to load the spotify.nvim’s statusline method
+        -- Attempt to require the Spotify status function
         local ok, spotify_commands = pcall(require, "spotify.commands")
         if ok and spotify_commands and spotify_commands.statusline then
-            -- Insert the Spotify status function into lualine_y (or whichever section you prefer)
-            table.insert(lualine_opts.sections.lualine_y, spotify_commands.statusline)
+            -- Insert Spotify status at position 1 in lualine_y, pushing everything else back
+            table.insert(lualine_opts.sections.lualine_y, 1, spotify_commands.statusline)
         end
 
         require("lualine").setup(lualine_opts)
