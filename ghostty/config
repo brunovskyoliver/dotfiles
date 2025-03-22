@@ -1,4 +1,4 @@
-font-size = 24
+font-size = 16
 background-opacity = 0.95
 command=/usr/bin/env zsh -ic "exec tmux"
 font-family="Fantasque Sans Mono Regular"
