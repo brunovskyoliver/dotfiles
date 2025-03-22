@@ -1,5 +1,5 @@
 return {
     require('dressing').setup({
-        input = { enabled = false }
+        input = { enabled = true }
     })
 }
