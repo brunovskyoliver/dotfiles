@@ -20,8 +20,8 @@ return {
                 xml = { "xmlformatter" },
             },
             format_on_save = { -- Automatically format on save
-                        timeout_ms = 1000,
-                        lsp_fallback = true,
+                timeout_ms = 1000,
+                lsp_fallback = true,
             }
         })
         local cmp = require('cmp')
@@ -61,7 +61,6 @@ return {
                     })
                     vim.g.zig_fmt_parse_errors = 0
                     vim.g.zig_fmt_autosave = 0
-
                 end,
                 ["lua_ls"] = function()
                     local lspconfig = require("lspconfig")
@@ -71,7 +70,7 @@ return {
                             Lua = {
                                 runtime = { version = "Lua 5.1" },
                                 diagnostics = {
-                                    globals = { "bit", "vim", "it", "describe", "before_each", "after_each" },
+                                    globals = { "bit", "vim", "it", "describe", "before_each", "after_each", "love" },
                                 }
                             }
                         }
