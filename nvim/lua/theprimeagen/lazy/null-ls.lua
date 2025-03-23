@@ -1,4 +1,3 @@
-
 return {
     "jose-elias-alvarez/null-ls.nvim",
     dependencies = { "williamboman/mason.nvim", "jay-babu/mason-null-ls.nvim" },
@@ -12,8 +11,8 @@ return {
         null_ls.setup({
             sources = {
                 null_ls.builtins.formatting.xmlformat,
+                null_ls.builtins.formatting.black
             },
         })
     end
 }
-
