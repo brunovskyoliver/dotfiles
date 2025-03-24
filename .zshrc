@@ -159,5 +159,5 @@ export CPPFLAGS="-I/opt/homebrew/opt/tcl-tk/include"
 export PKG_CONFIG_PATH="/opt/homebrew/opt/tcl-tk/lib/pkgconfig"
 export PATH="/usr/local/bin:$PATH"
 t() { command tre -l "3" "$@" -e && source "/tmp/tre_aliases_$USER" 2>/dev/null; }
-cl() { find . -name "$1" -type f -exec wc -l {} + | sort -n }
+cl() { find . -name "$@" -type f -exec wc -l {} + | sort -n }
 
