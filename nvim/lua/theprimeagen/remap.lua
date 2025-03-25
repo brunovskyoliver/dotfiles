@@ -1,4 +1,3 @@
-
 vim.g.mapleader = " "
 
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
@@ -26,10 +25,10 @@ vim.keymap.set("n", "<leader>p", "o<Esc>\"+P", { silent = true, noremap = true }
 vim.keymap.set("i", "<C-p>", "<C-r>+", { silent = true, noremap = true })
 
 -- next greatest remap ever : asbjornHaland
-vim.keymap.set({"n", "v"}, "<leader>y", [["+y]])
+vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]])
 vim.keymap.set("n", "<leader>Y", [["+Y]])
 
-vim.keymap.set({"n", "v"}, "<leader>d", "\"_d")
+vim.keymap.set({ "n", "v" }, "<leader>d", "\"_d")
 
 -- This is going to get me cancelled
 vim.keymap.set("i", "<C-c>", "<Esc>")
@@ -77,4 +76,3 @@ end)
 vim.keymap.set("n", "<leader><leader>", function()
     vim.cmd("so")
 end)
-
