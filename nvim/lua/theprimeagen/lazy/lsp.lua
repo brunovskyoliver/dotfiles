@@ -76,6 +76,9 @@ return {
                         },
                         capabilities = capabilities,
                         root_dir = lspconfig.util.root_pattern("*.sln", "*.csproj"),
+                        on_attach = function(client, bufnr)
+                            client.server_capabilities.hoverProvider = true
+                        end,
                         -- Enable full project analysis, not just open files
                         analyze_open_documents_only = false,
 
