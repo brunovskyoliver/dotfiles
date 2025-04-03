@@ -62,6 +62,21 @@ return {
                     vim.g.zig_fmt_parse_errors = 0
                     vim.g.zig_fmt_autosave = 0
                 end,
+                ["omnisharp"] = function()
+                    local lspconfig = require("lspconfig")
+                    lspconfig.omnisharp.setup({
+                        cmd = { "omnisharp", "--languageserver", "--hostPID", tostring(vim.fn.getpid()) },
+                        capabilities = capabilities,
+                        root_dir = lspconfig.util.root_pattern("*.sln", "*.csproj"),
+                        enable_editorconfig_support = true,
+                        enable_ms_build_load_projects_on_demand = false,
+                        enable_roslyn_analyzers = true,
+                        organize_imports_on_format = true,
+                        enable_import_completion = true,
+                        sdk_include_prereleases = false,
+                        analyze_open_documents_only = false,
+                    })
+                end,
                 ["lua_ls"] = function()
                     local lspconfig = require("lspconfig")
                     lspconfig.lua_ls.setup {
