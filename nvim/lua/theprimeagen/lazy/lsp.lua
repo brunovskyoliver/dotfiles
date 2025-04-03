@@ -64,19 +64,59 @@ return {
                 end,
                 ["omnisharp"] = function()
                     local lspconfig = require("lspconfig")
+                    local capabilities = require("cmp_nvim_lsp").default_capabilities()
+
                     lspconfig.omnisharp.setup({
                         cmd = { "omnisharp", "--languageserver", "--hostPID", tostring(vim.fn.getpid()) },
                         capabilities = capabilities,
                         root_dir = lspconfig.util.root_pattern("*.sln", "*.csproj"),
-                        enable_editorconfig_support = true,
-                        enable_ms_build_load_projects_on_demand = false,
+                        -- Enable full project analysis, not just open files
+                        analyze_open_documents_only = false,
+
+                        -- Better completion & navigation
+                        enable_import_completion = true,
                         enable_roslyn_analyzers = true,
                         organize_imports_on_format = true,
-                        enable_import_completion = true,
-                        sdk_include_prereleases = false,
-                        analyze_open_documents_only = false,
+
+                        -- Settings mapped from schema
+                        settings = {
+                            dotnet = {
+                                backgroundAnalysis = {
+                                    analyzerDiagnosticsScope = "fullSolution", -- full analysis
+                                    compilerDiagnosticsScope = "fullSolution",
+                                },
+                                completion = {
+                                    showCompletionItemsFromUnimportedNamespaces = true,
+                                    triggerCompletionInArgumentLists = true,
+                                    showNameCompletionSuggestions = true,
+                                },
+                                quickInfo = {
+                                    showRemarksInQuickInfo = true,
+                                },
+                                codeLens = {
+                                    enableReferencesCodeLens = true,
+                                    enableTestsCodeLens = true,
+                                },
+                            },
+                            csharp = {
+                                inlayHints = {
+                                    enableInlayHintsForImplicitVariableTypes = true,
+                                    enableInlayHintsForLambdaParameterTypes = true,
+                                    enableInlayHintsForTypes = true,
+                                },
+                                semanticHighlighting = {
+                                    enabled = true,
+                                },
+                            },
+                            omnisharp = {
+                                enableAsyncCompletion = true,
+                                sdkIncludePrereleases = false,
+                                enableEditorConfigSupport = true,
+                            }
+                        }
                     })
-                end,
+                end
+
                 ["lua_ls"] = function()
                     local lspconfig = require("lspconfig")
                     lspconfig.lua_ls.setup {
