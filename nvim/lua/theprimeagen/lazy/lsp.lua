@@ -68,6 +68,7 @@ return {
 
                     lspconfig.omnisharp.setup({
                         cmd = {
+                            "mono",
                             "/Applications/Unity/Hub/Editor/6000.0.43f1/Unity.app/Contents/MonoBleedingEdge/bin/mono",
                             "/Users/oliver/bin/omnisharp-mono/OmniSharp.exe",
                             "--languageserver",
