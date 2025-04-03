@@ -67,7 +67,12 @@ return {
                     local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
                     lspconfig.omnisharp.setup({
-                        cmd = { "omnisharp", "--languageserver", "--hostPID", tostring(vim.fn.getpid()) },
+                        cmd = {
+                            "/Applications/Unity/Hub/Editor/6000.0.43f1/Unity.app/Contents/MonoBleedingEdge/bin/mono",
+                            "/Users/oliver/bin/omnisharp-mono/OmniSharp.exe",
+                            "--languageserver",
+                            "--hostPID", tostring(vim.fn.getpid()),
+                        },
                         capabilities = capabilities,
                         root_dir = lspconfig.util.root_pattern("*.sln", "*.csproj"),
                         -- Enable full project analysis, not just open files
