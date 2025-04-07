@@ -2,7 +2,7 @@ return {
     "nvim-lualine/lualine.nvim",
     dependencies = {
         "nvim-tree/nvim-web-devicons",
-        "spinalshock/spotify.nvim",
+      -- "spinalshock/spotify.nvim",
     },
     config = function()
         -- Your existing lualine config
@@ -33,10 +33,10 @@ return {
         }
 
         -- Attempt to require the Spotify status function
-        local ok, spotify_commands = pcall(require, "spotify.commands")
-        if ok and spotify_commands and spotify_commands.statusline then
-            table.insert(lualine_opts.sections.lualine_x, 1, spotify_commands.statusline)
-        end
+       -- local ok, spotify_commands = pcall(require, "spotify.commands")
+       -- if ok and spotify_commands and spotify_commands.statusline then
+       --     table.insert(lualine_opts.sections.lualine_x, 1, spotify_commands.statusline)
+       -- end
 
         require("lualine").setup(lualine_opts)
     end
