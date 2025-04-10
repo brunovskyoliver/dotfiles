@@ -71,27 +71,27 @@ return {
                         capabilities = capabilities,
                         cmd = {
                             "mono",
-                            "/Users/oliver/bin/omnisharp-mono/OmniSharp.exe",
+                            "/Users/oliver/.local/share/nvim/mason/packages/omnisharp/OmniSharp.exe",
                             "--languageserver",
                             "--hostPID",
                             tostring(vim.fn.getpid())
                         },
                         root_dir = lspconfig.util.root_pattern("*.sln"),
-                        filetypes = {
-                            "cs", "vb", "csproj", "sln", "slnx", "props",
-                            "csx", "targets", "tproj", "slngen", "fproj"
-                        },
                         settings = {
                             omnisharp = {
                                 enableRoslynAnalyzers = false,
-                                organizeImportsOnFormat = true,
                                 enableImportCompletion = true,
-                                enableDecompilationSupport = true
+                                organizeImportsOnFormat = true,
+                                enableDecompilationSupport = true,
                             },
                         },
+                        on_new_config = function(new_config, _)
+                            new_config.cmd_env = {
+                                MSBUILD_EXE_PATH = "/Library/Frameworks/Mono.framework/Versions/Current/Commands/msbuild"
+                            }
+                        end
                     })
                 end,
-
                 ["lua_ls"] = function()
                     local lspconfig = require("lspconfig")
                     lspconfig.lua_ls.setup {
