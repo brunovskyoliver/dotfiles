@@ -69,7 +69,7 @@ return {
 
                     lspconfig.omnisharp.setup({
                         capabilities = capabilities,
-                        enable_roslyn_analysers = true,
+                        enable_roslyn_analysers = false,
                         enable_import_completion = true,
                         organize_imports_on_format = true,
                         enable_decompilation_support = true,
