@@ -84,7 +84,7 @@ return {
 
                         -- Better completion & navigation
                         enable_import_completion = true,
-                        enable_roslyn_analyzers = true,
+                        enable_roslyn_analyzers = false,
                         organize_imports_on_format = true,
 
                         -- Settings mapped from schema
