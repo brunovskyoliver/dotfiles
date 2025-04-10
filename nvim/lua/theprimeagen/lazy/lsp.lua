@@ -69,13 +69,29 @@ return {
 
                     lspconfig.omnisharp.setup({
                         capabilities = capabilities,
-                        enable_roslyn_analysers = false,
-                        enable_import_completion = true,
-                        organize_imports_on_format = true,
-                        enable_decompilation_support = true,
-                        filetypes = { 'cs', 'vb', 'csproj', 'sln', 'slnx', 'props', 'csx', 'targets', 'tproj', 'slngen', 'fproj' },
+                        cmd = {
+                            "mono",
+                            "/Users/oliver/bin/omnisharp-mono/OmniSharp.exe",
+                            "--languageserver",
+                            "--hostPID",
+                            tostring(vim.fn.getpid())
+                        },
+                        root_dir = lspconfig.util.root_pattern("*.sln"),
+                        filetypes = {
+                            "cs", "vb", "csproj", "sln", "slnx", "props",
+                            "csx", "targets", "tproj", "slngen", "fproj"
+                        },
+                        settings = {
+                            omnisharp = {
+                                enableRoslynAnalyzers = false,
+                                organizeImportsOnFormat = true,
+                                enableImportCompletion = true,
+                                enableDecompilationSupport = true
+                            },
+                        },
                     })
                 end,
+
                 ["lua_ls"] = function()
                     local lspconfig = require("lspconfig")
                     lspconfig.lua_ls.setup {
