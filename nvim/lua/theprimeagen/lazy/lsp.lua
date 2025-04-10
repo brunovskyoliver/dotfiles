@@ -70,12 +70,12 @@ return {
                     lspconfig.omnisharp.setup({
                         capabilities = capabilities,
                         cmd = {
-                            "mono",
-                            "/Users/oliver/.local/share/nvim/mason/packages/omnisharp/OmniSharp.exe",
+                            "/Users/oliver/.local/share/nvim/mason/packages/omnisharp/libexec/OmniSharp",
                             "--languageserver",
                             "--hostPID",
                             tostring(vim.fn.getpid())
                         },
+
                         root_dir = lspconfig.util.root_pattern("*.sln"),
                         settings = {
                             omnisharp = {
@@ -90,6 +90,7 @@ return {
                                 MSBUILD_EXE_PATH = "/Library/Frameworks/Mono.framework/Versions/Current/Commands/msbuild"
                             }
                         end
+
                     })
                 end,
                 ["lua_ls"] = function()
