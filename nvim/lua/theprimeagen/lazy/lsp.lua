@@ -68,61 +68,12 @@ return {
                     local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
                     lspconfig.omnisharp.setup({
-                        cmd = {
-                            "mono",
-                            "/Users/oliver/bin/omnisharp-mono/OmniSharp.exe",
-                            "--languageserver",
-                            "--hostPID", tostring(vim.fn.getpid()),
-                        },
                         capabilities = capabilities,
-                        root_dir = lspconfig.util.root_pattern("*.sln", "*.csproj"),
-                        on_attach = function(client, bufnr)
-                            client.server_capabilities.hoverProvider = true
-                        end,
-                        -- Enable full project analysis, not just open files
-                        analyze_open_documents_only = false,
-
-                        -- Better completion & navigation
+                        enable_roslyn_analysers = true,
                         enable_import_completion = true,
-                        enable_roslyn_analyzers = false,
                         organize_imports_on_format = true,
-
-                        -- Settings mapped from schema
-                        settings = {
-                            dotnet = {
-                                backgroundAnalysis = {
-                                    analyzerDiagnosticsScope = "fullSolution", -- full analysis
-                                    compilerDiagnosticsScope = "fullSolution",
-                                },
-                                completion = {
-                                    showCompletionItemsFromUnimportedNamespaces = true,
-                                    triggerCompletionInArgumentLists = true,
-                                    showNameCompletionSuggestions = true,
-                                },
-                                quickInfo = {
-                                    showRemarksInQuickInfo = true,
-                                },
-                                codeLens = {
-                                    enableReferencesCodeLens = true,
-                                    enableTestsCodeLens = true,
-                                },
-                            },
-                            csharp = {
-                                inlayHints = {
-                                    enableInlayHintsForImplicitVariableTypes = true,
-                                    enableInlayHintsForLambdaParameterTypes = true,
-                                    enableInlayHintsForTypes = true,
-                                },
-                                semanticHighlighting = {
-                                    enabled = true,
-                                },
-                            },
-                            omnisharp = {
-                                enableAsyncCompletion = true,
-                                sdkIncludePrereleases = false,
-                                enableEditorConfigSupport = true,
-                            }
-                        }
+                        enable_decompilation_support = true,
+                        filetypes = { 'cs', 'vb', 'csproj', 'sln', 'slnx', 'props', 'csx', 'targets', 'tproj', 'slngen', 'fproj' },
                     })
                 end,
                 ["lua_ls"] = function()
