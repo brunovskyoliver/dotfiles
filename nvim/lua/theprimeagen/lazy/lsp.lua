@@ -87,7 +87,9 @@ return {
                         },
                         on_new_config = function(new_config, _)
                             new_config.cmd_env = {
-                                MSBUILD_EXE_PATH = "/Library/Frameworks/Mono.framework/Versions/Current/Commands/msbuild"
+                                MSBUILD_EXE_PATH = "/Library/Frameworks/Mono.framework/Versions/Current/Commands/msbuild",
+                                DOTNET_ROOT = "/usr/local/share/dotnet",
+                                PATH = os.getenv("PATH"),
                             }
                         end
 
