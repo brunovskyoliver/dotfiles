@@ -109,6 +109,9 @@ return {
                             "--languageserver",
                             "--hostPID",
                             tostring(vim.fn.getpid())
+                            "-z", -- Enable better Unity support
+                            "--encoding", "utf-8",
+                            "--debug" -- Add debug output
                         },
                         -- Expanded root_dir pattern to handle Unity projects
                         root_dir = lspconfig.util.root_pattern("*.sln", "*.csproj", "Assets", "ProjectSettings",
