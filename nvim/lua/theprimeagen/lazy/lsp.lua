@@ -66,43 +66,50 @@ return {
                 end,
                 ["omnisharp"] = function()
                     local lspconfig = require("lspconfig")
-                    local capabilities = require("cmp_nvim_lsp").default_capabilities()
+                    local omnisharp_extended = require("omnisharp_extended")
+                    local pid = vim.fn.getpid()
+
+                    vim.env.DOTNET_ROOT = "/usr/local/share/dotnet"
 
                     lspconfig.omnisharp.setup({
-                        capabilities = capabilities,
                         cmd = {
                             "dotnet",
                             "/Users/oliver/.local/bin/omnisharp/OmniSharp.dll",
                             "--languageserver",
                             "--hostPID",
-                            tostring(vim.fn.getpid())
+                            tostring(pid)
                         },
+                        root_dir = lspconfig.util.root_pattern("BazDef.sln"),
+                        capabilities = require("cmp_nvim_lsp").default_capabilities(),
                         handlers = {
-                            ["textDocument/definition"] = require('omnisharp_extended').handler,
+                            ["textDocument/definition"] = omnisharp_extended.handler,
                         },
                         on_attach = function(client, bufnr)
                             print("✅ OmniSharp LSP attached to buffer " .. bufnr)
                         end,
-
-                        root_dir = lspconfig.util.root_pattern("*.sln"),
-                        -- settings = {
-                        --     omnisharp = {
-                        --         enableRoslynAnalyzers = false,
-                        --         enableImportCompletion = true,
-                        --         organizeImportsOnFormat = true,
-                        --         enableDecompilationSupport = true,
-                        --     },
-                        -- },
-                        -- on_new_config = function(new_config, _)
-                        --     new_config.cmd_env = {
-                        --         MSBUILD_EXE_PATH = "/Library/Frameworks/Mono.framework/Versions/Current/Commands/msbuild",
-                        --         DOTNET_ROOT = "/usr/local/share/dotnet",
-                        --         PATH = os.getenv("PATH"),
-                        --     }
-                        -- end
-
+                        enable_import_completion = true,
+                        organize_imports_on_format = true,
+                        enable_roslyn_analyzers = true,
+                        settings = {
+                            FormattingOptions = {
+                                EnableEditorConfigSupport = true,
+                                OrganizeImports = true,
+                            },
+                            RoslynExtensionsOptions = {
+                                EnableAnalyzersSupport = true,
+                                EnableImportCompletion = true,
+                                AnalyzeOpenDocumentsOnly = false,
+                            },
+                            MsBuild = {
+                                LoadProjectsOnDemand = false,
+                            },
+                            Sdk = {
+                                IncludePrereleases = true,
+                            },
+                        },
                     })
                 end,
+
                 ["lua_ls"] = function()
                     local lspconfig = require("lspconfig")
                     lspconfig.lua_ls.setup {
