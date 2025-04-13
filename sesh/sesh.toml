@@ -2,3 +2,8 @@
 startup_command = "nvim +GoToFile"
 startup_command_ignore_dirs = ["~/repos", "~/.config"]
 preview_command = "eza --all --git --icons --color=always {}"
+
+[[session]]
+name = "/ect/hosts"
+path = "/etc"
+startup_command = "sudo nvim hosts"
