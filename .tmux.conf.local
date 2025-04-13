@@ -9,7 +9,10 @@
 
 # -- bindings ------------------------------------------------------------------
 unbind x
-bind x kill-window
+#bind x kill-window
+bind-key x kill-pane # skip "kill-pane 1? (y/n)" prompt
+set -g detach-on-destroy off  # don't exit from tmux when closing a session
+
 
 # preserve tmux stock bindings,
 # while adding bindings that don't conflict with these stock bindings
