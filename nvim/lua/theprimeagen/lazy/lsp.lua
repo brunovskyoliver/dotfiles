@@ -64,10 +64,10 @@ return {
                     vim.g.zig_fmt_parse_errors = 0
                     vim.g.zig_fmt_autosave = 0
                 end,
+
                 ["omnisharp"] = function()
                     local lspconfig = require("lspconfig")
                     local omnisharp_extended = require("omnisharp_extended")
-                    local pid = vim.fn.getpid()
 
                     vim.env.DOTNET_ROOT = "/usr/local/share/dotnet"
 
@@ -77,7 +77,7 @@ return {
                             "/Users/oliver/.local/bin/omnisharp/OmniSharp.dll",
                             "--languageserver",
                             "--hostPID",
-                            tostring(pid)
+                            tostring(vim.fn.getpid())
                         },
                         root_dir = lspconfig.util.root_pattern("BazDef.sln"),
                         capabilities = require("cmp_nvim_lsp").default_capabilities(),
@@ -87,21 +87,18 @@ return {
                         on_attach = function(client, bufnr)
                             print("✅ OmniSharp LSP attached to buffer " .. bufnr)
                         end,
-                        enable_import_completion = true,
-                        organize_imports_on_format = true,
-                        enable_roslyn_analyzers = true,
                         settings = {
                             FormattingOptions = {
                                 EnableEditorConfigSupport = true,
                                 OrganizeImports = true,
                             },
                             RoslynExtensionsOptions = {
-                                EnableAnalyzersSupport = true,
-                                EnableImportCompletion = true,
-                                AnalyzeOpenDocumentsOnly = false,
+                                EnableAnalyzersSupport = false,
+                                EnableImportCompletion = false,
+                                AnalyzeOpenDocumentsOnly = true,
                             },
                             MsBuild = {
-                                LoadProjectsOnDemand = false,
+                                LoadProjectsOnDemand = true,
                             },
                             Sdk = {
                                 IncludePrereleases = true,
