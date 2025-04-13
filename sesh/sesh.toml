@@ -11,3 +11,8 @@ startup_command = "sudo nvim hosts"
 [[session]]
 name = "dotfiles"
 path = "~/dotfiles"
+
+[[session]]
+name = "sesh config"
+path = "~/dotfiles/sesh"
+startup_command = "nvim sesh.toml"
