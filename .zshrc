@@ -167,24 +167,3 @@ export PATH="/usr/local/bin:$PATH"
 export PATH="/Library/Frameworks/Mono.framework/Versions/6.12.0/bin:$PATH"
 t() { command tre -l "3" "$@" -e && source "/tmp/tre_aliases_$USER" 2>/dev/null; }
 cl() { find . -name "$1" -type f -exec wc -l {} + | sort -n }
-sesh_fzf_connect() {
-  local session
-  session=$(sesh list --icons | fzf-tmux -p 80%,70% \
-    --no-sort --ansi --border-label ' sesh ' --prompt '⚡  ' \
-    --header '  ^a all ^t tmux ^g configs ^x zoxide ^d tmux kill ^f find' \
-    --bind 'tab:down,btab:up' \
-    --bind 'ctrl-a:change-prompt(⚡  )+reload(sesh list --icons)' \
-    --bind 'ctrl-t:change-prompt(🪟  )+reload(sesh list -t --icons)' \
-    --bind 'ctrl-g:change-prompt(⚙️  )+reload(sesh list -c --icons)' \
-    --bind 'ctrl-x:change-prompt(📁  )+reload(sesh list -z --icons)' \
-    --bind 'ctrl-f:change-prompt(🔎  )+reload(fd -H -d 2 -t d -E .Trash . ~)' \
-    --bind 'ctrl-d:execute(tmux kill-session -t {2..})+change-prompt(⚡  )+reload(sesh list --icons)' \
-    --preview-window 'right:55%' \
-    --preview 'sesh preview {}')
-
-  [[ -n "$session" ]] && sesh connect "$session"
-}
-
-# Bind the function to a key sequence, e.g., Ctrl+t
-# You can change "^T" to any other combination (like "^S", etc.)
-bindkey -s '^s' 'sesh_fzf_connect\n'
