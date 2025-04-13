@@ -108,8 +108,8 @@ return {
                             "/Users/oliver/.local/bin/omnisharp/OmniSharp.dll",
                             "--languageserver",
                             "--hostPID",
-                            tostring(vim.fn.getpid())
-                            "-z", -- Enable better Unity support
+                            tostring(vim.fn.getpid()),
+                            "-z",     -- Enable better Unity support
                             "--encoding", "utf-8",
                             "--debug" -- Add debug output
                         },
