@@ -70,7 +70,7 @@ return {
                     lspconfig.omnisharp.setup({
                         capabilities = capabilities,
                         cmd = {
-                            "/Users/oliver/.local/share/nvim/mason/packages/omnisharp/libexec/OmniSharp",
+                            "/Users/oliver/.local/share/nvim/mason/bin/omnisharp",
                             "--languageserver",
                             "--hostPID",
                             tostring(vim.fn.getpid())
