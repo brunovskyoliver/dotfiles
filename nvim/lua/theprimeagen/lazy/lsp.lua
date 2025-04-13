@@ -71,7 +71,8 @@ return {
                     lspconfig.omnisharp.setup({
                         capabilities = capabilities,
                         cmd = {
-                            "/Users/oliver/.local/bin/omnisharp/OmniSharp",
+                            "dotnet",
+                            "/Users/oliver/.local/bin/omnisharp/OmniSharp.dll",
                             "--languageserver",
                             "--hostPID",
                             tostring(vim.fn.getpid())
