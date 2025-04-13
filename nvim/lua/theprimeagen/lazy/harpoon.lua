@@ -5,10 +5,10 @@ return {
         local harpoon = require "harpoon"
         harpoon:setup()
 
-        vim.keymap.set("n", "<m-h><m-m>", function()
+        vim.keymap.set("n", "<m-h>m", function()
             harpoon:list():add()
         end)
-        vim.keymap.set("n", "<m-h><m-l>", function()
+        vim.keymap.set("n", "<leader>l", function()
             harpoon.ui:toggle_quick_menu(harpoon:list())
         end)
 
