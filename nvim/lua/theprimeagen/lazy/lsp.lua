@@ -80,22 +80,22 @@ return {
                             ["textDocument/definition"] = require('omnisharp_extended').handler,
                         },
 
-                        root_dir = lspconfig.util.root_pattern("*.sln"),
-                        settings = {
-                            omnisharp = {
-                                enableRoslynAnalyzers = false,
-                                enableImportCompletion = true,
-                                organizeImportsOnFormat = true,
-                                enableDecompilationSupport = true,
-                            },
-                        },
-                        on_new_config = function(new_config, _)
-                            new_config.cmd_env = {
-                                MSBUILD_EXE_PATH = "/Library/Frameworks/Mono.framework/Versions/Current/Commands/msbuild",
-                                DOTNET_ROOT = "/usr/local/share/dotnet",
-                                PATH = os.getenv("PATH"),
-                            }
-                        end
+                        -- root_dir = lspconfig.util.root_pattern("*.sln"),
+                        -- settings = {
+                        --     omnisharp = {
+                        --         enableRoslynAnalyzers = false,
+                        --         enableImportCompletion = true,
+                        --         organizeImportsOnFormat = true,
+                        --         enableDecompilationSupport = true,
+                        --     },
+                        -- },
+                        -- on_new_config = function(new_config, _)
+                        --     new_config.cmd_env = {
+                        --         MSBUILD_EXE_PATH = "/Library/Frameworks/Mono.framework/Versions/Current/Commands/msbuild",
+                        --         DOTNET_ROOT = "/usr/local/share/dotnet",
+                        --         PATH = os.getenv("PATH"),
+                        --     }
+                        -- end
 
                     })
                 end,
