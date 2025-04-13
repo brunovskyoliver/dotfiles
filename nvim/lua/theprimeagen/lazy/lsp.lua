@@ -110,7 +110,7 @@ return {
                             "--languageserver",
                             "--hostPID",
                             tostring(vim.fn.getpid()),
-                            -- "-z",     -- Enable better Unity support
+                            "-z", -- Enable better Unity support
                             -- "--encoding", "utf-8",
                             -- "--debug" -- Add debug output
                         },
@@ -150,6 +150,13 @@ return {
                             FileOptions = {
                                 SystemExcludeSearchPatterns = { "**/node_modules/**/*", "**/bin/**/*", "**/obj/**/*" },
                                 ExcludeSearchPatterns = { "**/.git/**/*" },
+                            },
+                            ReferenceResolutionOptions = {
+                                -- Add references to Unity assemblies
+                                PreferredSourceRoots = {
+                                    "/Applications/Unity/Hub/Editor/6000.0.43f1/Unity.app/Contents/Managed/",
+                                    "/Users/oliver/Library/Unity/cache/"
+                                },
                             },
                         },
                         flags = {
