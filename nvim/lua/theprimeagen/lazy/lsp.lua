@@ -93,8 +93,8 @@ return {
                                 OrganizeImports = true,
                             },
                             RoslynExtensionsOptions = {
-                                EnableAnalyzersSupport = false,
-                                EnableImportCompletion = false,
+                                EnableAnalyzersSupport = true,
+                                EnableImportCompletion = true,
                                 AnalyzeOpenDocumentsOnly = true,
                             },
                             MsBuild = {
