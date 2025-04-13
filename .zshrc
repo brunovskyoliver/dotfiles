@@ -33,7 +33,6 @@ locip() {
 alias b='w3m "$(cat ~/.cache/last_url)" -o accept_encoding="identity;q=0"'
 alias n='echo "$(cat ~/.cache/preloaded_buffer)" | nvim -'
 alias nb='newsboat --refresh-on-start'
-eval $(thefuck --alias)
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
