@@ -134,9 +134,14 @@ return {
                                 EnableAnalyzersSupport = true,
                                 EnableImportCompletion = true,
                                 AnalyzeOpenDocumentsOnly = false, -- Changed to false to analyze referenced files too
+                                LocationPaths = {
+                                    "/Applications/Unity/Hub/Editor/6000.0.43f1/Unity.app/Contents/Managed/UnityEngine.dll",
+                                    "/Applications/Unity/Hub/Editor/6000.0.43f1/Unity.app/Contents/Managed/",
+                                },
                             },
                             MsBuild = {
                                 LoadProjectsOnDemand = true,
+                                UseLegacySdkResolver = true,
                                 EnableAssemblyAttributeDocumentation = true, -- For better documentation
                             },
                             Sdk = {
@@ -145,6 +150,13 @@ return {
                             FileOptions = {
                                 SystemExcludeSearchPatterns = { "**/node_modules/**/*", "**/bin/**/*", "**/obj/**/*" },
                                 ExcludeSearchPatterns = { "**/.git/**/*" },
+                            },
+                            ReferenceResolutionOptions = {
+                                -- Add references to Unity assemblies
+                                PreferredSourceRoots = {
+                                    "/Applications/Unity/Hub/Editor/6000.0.43f1/Unity.app/Contents/Managed/",
+                                    "/Users/oliver/Library/Unity/cache/"
+                                },
                             },
                         },
                         flags = {
