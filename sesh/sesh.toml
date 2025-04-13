@@ -18,8 +18,9 @@ path = "~/dotfiles/sesh"
 startup_command = "nvim sesh.toml"
 preview_command = "bat --color=always ~/dotfiles/sesh/sesh.toml"
 
-
 [[session]]
-name = "lazy plugins"
-path = "~/.local/share/nvim/lazy"
-startup_command = "sesh connect (ls | fzf --preview 'glow -s light {}/README.md' --preview-window=right:70,border-none) && exit"
+name = "aerospace config"
+path = "~/dotfiles/aerospace"
+startup_command = "nvim aerospace.toml"
+preview_command = "bat --color=always ~/dotfiles/aerospace/aerospace.toml"
+
