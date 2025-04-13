@@ -21,5 +21,15 @@ preview_command = "bat --color=always ~/dotfiles/aerospace/aerospace.toml"
 
 [[session]]
 name = "infsem"
-path =  "~/Documents/Programming/SEMINAR_INF"
+path = "~/Documents/Programming/SEMINAR_INF"
 startup_command = "pyenv shell 3.9.18"
+
+[[session]]
+name = "nvim plugin config"
+path = "~/dotfiles/nvim/lua/theprimeagen/lazy"
+
+[[session]]
+name = "nvim config"
+path = "~/dotfiles/nvim/lua/theprimeagen"
+
+
