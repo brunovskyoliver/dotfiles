@@ -73,22 +73,22 @@ return {
                     local on_attach = function(client, bufnr)
                         print("✅ OmniSharp LSP attached to buffer " .. bufnr)
 
-                        -- -- Define keybindings
-                        -- local opts = { noremap = true, silent = true, buffer = bufnr }
-                        --
-                        -- -- Go to definition
-                        -- vim.keymap.set("n", "gd", function()
-                        --     require("omnisharp_extended").telescope_lsp_definitions()
-                        -- end, opts)
-                        --
-                        -- -- Documentation with Shift+K
-                        -- vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
-                        --
-                        -- -- Other useful mappings
-                        -- vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
-                        -- vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
-                        -- vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
-                        -- vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
+                        -- Define keybindings
+                        local opts = { noremap = true, silent = true, buffer = bufnr }
+
+                        -- Go to definition
+                        vim.keymap.set("n", "gd", function()
+                            require("omnisharp_extended").telescope_lsp_definitions()
+                        end, opts)
+
+                        -- Documentation with Shift+K
+                        vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+
+                        -- Other useful mappings
+                        vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
+                        vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
+                        vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
+                        vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
 
                         -- Set omnisharp as the formatter for C# files
                         if client.server_capabilities.documentFormattingProvider then
