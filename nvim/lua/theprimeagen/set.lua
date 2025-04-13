@@ -35,29 +35,29 @@ vim.api.nvim_create_augroup("view_autosave", { clear = true })
 
 -- Save view on leaving a window if the buffer has a valid name and is a normal file.
 vim.api.nvim_create_autocmd("BufWinLeave", {
-  group = "view_autosave",
-  pattern = "*",
-  callback = function()
-    local bufname = vim.api.nvim_buf_get_name(0)
-    if bufname == "" or vim.bo.buftype ~= "" then
-      return
-    end
-    vim.cmd("mkview")
-  end,
+    group = "view_autosave",
+    pattern = "*",
+    callback = function()
+        local bufname = vim.api.nvim_buf_get_name(0)
+        if bufname == "" or vim.bo.buftype ~= "" then
+            return
+        end
+        vim.cmd("mkview")
+    end,
 })
 
 -- Restore view on entering a window if the buffer has a valid name and is a normal file.
 vim.api.nvim_create_autocmd("BufWinEnter", {
-  group = "view_autosave",
-  pattern = "*",
-  callback = function()
-    local bufname = vim.api.nvim_buf_get_name(0)
-    if bufname == "" or vim.bo.buftype ~= "" then
-      return
-    end
-    vim.cmd("silent! loadview")
-  end,
+    group = "view_autosave",
+    pattern = "*",
+    callback = function()
+        local bufname = vim.api.nvim_buf_get_name(0)
+        if bufname == "" or vim.bo.buftype ~= "" then
+            return
+        end
+        vim.cmd("silent! loadview")
+    end,
 })
 vim.g.loaded_python3_provider = 0
 
-
+vim.env.DOTNET_ROOT = "/usr/local/share/dotnet"
