@@ -20,6 +20,6 @@ startup_command = "nvim aerospace.toml"
 preview_command = "bat --color=always ~/dotfiles/aerospace/aerospace.toml"
 
 [[session]]
-name = "inf sem"
-path "~/Documents/Programming/SEMINAR_INF"
+name = "infsem"
+path =  "~/Documents/Programming/SEMINAR_INF"
 startup_command = "pyenv shell 3.9.18"
