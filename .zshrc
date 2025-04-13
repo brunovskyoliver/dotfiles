@@ -166,3 +166,6 @@ export PATH="/usr/local/bin:$PATH"
 export PATH="/Library/Frameworks/Mono.framework/Versions/6.12.0/bin:$PATH"
 t() { command tre -l "3" "$@" -e && source "/tmp/tre_aliases_$USER" 2>/dev/null; }
 cl() { find . -name "$1" -type f -exec wc -l {} + | sort -n }
+export DOTNET_ROOT=/usr/local/share/dotnet
+export PATH="$DOTNET_ROOT:$PATH"
+
