@@ -27,10 +27,10 @@ startup_command = "pyenv shell 3.9.18"
 [[session]]
 name = "nvim plugin config"
 path = "~/dotfiles/nvim/lua/theprimeagen/lazy"
-startup_command = "nvim {}"
+startup_command = "nvim ."
 
 [[session]]
 name = "nvim config"
 path = "~/dotfiles/nvim/lua/theprimeagen"
-startup_command = "nvim {}"
+startup_command = "nvim ."
 
