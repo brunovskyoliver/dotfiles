@@ -3,7 +3,7 @@
 if [[ "$1" == "-s" ]]; then
     cmd="echo simulating copying"
 else
-    cmd="cp -rvf"
+    cmd="cp -rf"
 fi
 dirs=$(find "$HOME/dotfiles" -mindepth 1 -maxdepth 1 -type d | awk '!/git/')
 mkdir -p "$HOME/.config"
