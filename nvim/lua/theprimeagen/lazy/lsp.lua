@@ -73,8 +73,11 @@ return {
 
                     lspconfig.omnisharp.setup({
                         cmd = {
-                            "dotnet",
-                            "/Users/oliver/.local/bin/omnisharp/OmniSharp.dll",
+                            -- "dotnet",
+                            -- "/Users/oliver/.local/bin/omnisharp/OmniSharp.dll",
+                            "mono",
+                            -- Path to the OmniSharp.exe from the mono build you just extracted:
+                            "/Users/oliver/.local/bin/omnisharp-mono/OmniSharp.exe",
                             "--languageserver",
                             "--hostPID",
                             tostring(vim.fn.getpid())
