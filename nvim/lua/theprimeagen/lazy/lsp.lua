@@ -68,6 +68,7 @@ return {
                     local lspconfig = require("lspconfig")
                     local omnisharp_extended = require("omnisharp_extended")
                     vim.env.DOTNET_ROOT = "/usr/local/share/dotnet"
+                    vim.env.MSBuildSDKsPath = "/Applications/Unity/Hub/Editor/6000.0.43f1/Unity.app/Contents/Managed/"
 
                     -- Expanded on_attach function with proper keybindings
                     local on_attach = function(client, bufnr)
