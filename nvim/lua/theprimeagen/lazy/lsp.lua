@@ -70,7 +70,7 @@ return {
                     local omnisharp_extended = require("omnisharp_extended")
 
                     vim.env.DOTNET_ROOT = "/usr/local/share/dotnet"
-
+                    vim.env.MSBUILD_EXE_PATH = "/Library/Frameworks/Mono.framework/Versions/Current/Commands/msbuild"
                     lspconfig.omnisharp.setup({
                         cmd = {
                             -- "dotnet",
