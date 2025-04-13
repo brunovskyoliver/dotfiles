@@ -137,10 +137,6 @@ return {
                                 EnableAnalyzersSupport = true,
                                 EnableImportCompletion = true,
                                 AnalyzeOpenDocumentsOnly = false, -- Changed to false to analyze referenced files too
-                                LocationPaths = {
-                                    "/Applications/Unity/Hub/Editor/6000.0.43f1/Unity.app/Contents/Managed/UnityEngine.dll",
-                                    "/Applications/Unity/Hub/Editor/6000.0.43f1/Unity.app/Contents/Managed/",
-                                },
                             },
                             MsBuild = {
                                 LoadProjectsOnDemand = true,
