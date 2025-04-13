@@ -23,7 +23,7 @@ tmux_conf_preserve_stock_bindings=false
 
 
 bind-key "q" run-shell "sesh connect \"$(
-  sesh list --icons | fzf-tmux -p 90%,90% \
+  sesh list --icons | fzf-tmux -p 100%,100% \
     --no-sort --ansi --border-label ' sesh ' --prompt '⚡  ' \
     --header '  ^a all ^t tmux ^g configs ^x zoxide ^d tmux kill ^f find' \
     --bind 'tab:down,btab:up' \
