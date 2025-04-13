@@ -1,4 +1,3 @@
-
 return {
     {
         "L3MON4D3/LuaSnip",
@@ -13,18 +12,19 @@ return {
             local ls = require("luasnip")
             ls.filetype_extend("javascript", { "jsdoc" })
 
-            --- TODO: What is expand?
-            vim.keymap.set({"i"}, "<C-s>e", function() ls.expand() end, {silent = true})
+            -- Expand snippet
+            vim.keymap.set({ "i" }, "<C-k>", function() ls.expand() end, { silent = true })
 
-            vim.keymap.set({"i", "s"}, "<C-s>;", function() ls.jump(1) end, {silent = true})
-            vim.keymap.set({"i", "s"}, "<C-s>,", function() ls.jump(-1) end, {silent = true})
+            -- Jump forward/backward
+            vim.keymap.set({ "i", "s" }, "<C-j>", function() ls.jump(1) end, { silent = true })
+            vim.keymap.set({ "i", "s" }, "<C-h>", function() ls.jump(-1) end, { silent = true })
 
-            vim.keymap.set({"i", "s"}, "<C-E>", function()
+            -- Cycle through choices
+            vim.keymap.set({ "i", "s" }, "<C-l>", function()
                 if ls.choice_active() then
                     ls.change_choice(1)
                 end
-            end, {silent = true})
+            end, { silent = true })
         end,
     }
 }
-
