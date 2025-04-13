@@ -70,14 +70,11 @@ return {
                     local omnisharp_extended = require("omnisharp_extended")
 
                     vim.env.DOTNET_ROOT = "/usr/local/share/dotnet"
-                    vim.env.MSBUILD_EXE_PATH = "/Library/Frameworks/Mono.framework/Versions/Current/Commands/msbuild"
+
                     lspconfig.omnisharp.setup({
                         cmd = {
-                            -- "dotnet",
-                            -- "/Users/oliver/.local/bin/omnisharp/OmniSharp.dll",
-                            "mono",
-                            -- Path to the OmniSharp.exe from the mono build you just extracted:
-                            "/Users/oliver/.local/bin/omnisharp-mono/OmniSharp.exe",
+                            "dotnet",
+                            "/Users/oliver/.local/bin/omnisharp/OmniSharp.dll",
                             "--languageserver",
                             "--hostPID",
                             tostring(vim.fn.getpid())
