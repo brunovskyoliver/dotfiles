@@ -151,13 +151,6 @@ return {
                                 SystemExcludeSearchPatterns = { "**/node_modules/**/*", "**/bin/**/*", "**/obj/**/*" },
                                 ExcludeSearchPatterns = { "**/.git/**/*" },
                             },
-                            ReferenceResolutionOptions = {
-                                -- Add references to Unity assemblies
-                                PreferredSourceRoots = {
-                                    "/Applications/Unity/Hub/Editor/6000.0.43f1/Unity.app/Contents/Managed/",
-                                    "/Users/oliver/Library/Unity/cache/"
-                                },
-                            },
                         },
                         flags = {
                             debounce_text_changes = 150,
