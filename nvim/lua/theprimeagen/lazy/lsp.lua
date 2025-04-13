@@ -81,7 +81,7 @@ return {
                             ["textDocument/definition"] = require('omnisharp_extended').handler,
                         },
 
-                        -- root_dir = lspconfig.util.root_pattern("*.sln"),
+                        root_dir = lspconfig.util.root_pattern("*.sln"),
                         -- settings = {
                         --     omnisharp = {
                         --         enableRoslynAnalyzers = false,
