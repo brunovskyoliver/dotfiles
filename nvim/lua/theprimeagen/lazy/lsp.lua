@@ -80,6 +80,9 @@ return {
                         handlers = {
                             ["textDocument/definition"] = require('omnisharp_extended').handler,
                         },
+                        on_attach = function(client, bufnr)
+                            print("✅ OmniSharp LSP attached to buffer " .. bufnr)
+                        end,
 
                         root_dir = lspconfig.util.root_pattern("*.sln"),
                         -- settings = {
