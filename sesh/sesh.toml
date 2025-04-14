@@ -40,3 +40,11 @@ path = "~/dotfiles/ghostty"
 startup_command = "nvim config"
 preview_command = "bat --color=always ~/dotfiles/ghostty/config"
 
+
+[[session]]
+name = "tmux config"
+path = "~/dotfiles"
+startup_command = "nvim .tmux.conf.local"
+preview_command = "bat --color=always ~/dotfiles/.tmux.conf.local"
+
+
