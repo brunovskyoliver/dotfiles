@@ -34,3 +34,8 @@ name = "nvim config"
 path = "~/dotfiles/nvim/lua/theprimeagen"
 startup_command = "nvim ."
 
+[[session]]
+name = "ghostty config"
+path = "~/dotfiles/ghostty"
+startup_command = "nvim config"
+
