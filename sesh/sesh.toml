@@ -38,4 +38,5 @@ startup_command = "nvim ."
 name = "ghostty config"
 path = "~/dotfiles/ghostty"
 startup_command = "nvim config"
+preview_command = "bat --color=always ~/dotfiles/ghostty/config"
 
