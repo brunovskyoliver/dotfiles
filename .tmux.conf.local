@@ -23,6 +23,8 @@ tmux_conf_preserve_stock_bindings=false
 
 bind-key t clock-mode
 
+bind-key h set -g status
+
 
 bind-key "q" run-shell "sesh connect \"$(
   sesh list --icons | fzf-tmux -p 100%,100% \
