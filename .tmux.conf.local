@@ -38,6 +38,8 @@ bind-key "q" run-shell "sesh connect \"$(
 )\""
 
 
+bind-key t set -g status
+
 
 # -- session creation ----------------------------------------------------------
 
