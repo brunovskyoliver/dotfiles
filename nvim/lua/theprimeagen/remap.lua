@@ -77,17 +77,17 @@ vim.keymap.set("n", "<leader><leader>", function()
     vim.cmd("so")
 end)
 
-
-
 vim.keymap.set("v", "<leader>r", function()
     local start_pos = vim.fn.getpos("'<")
     local end_pos = vim.fn.getpos("'>")
     local lines = vim.fn.getline(start_pos[2], end_pos[2])
     if #lines == 0 then return end
+
     lines[1] = string.sub(lines[1], start_pos[3], #lines[1])
     lines[#lines] = string.sub(lines[#lines], 1, end_pos[3])
     local selection = table.concat(lines, "\n")
     selection = vim.fn.escape(selection, "\\/")
-    vim.cmd("let @/ = '" .. selection .. "'")
+
+    vim.fn.setreg("/", selection)
     vim.cmd("normal! :%s/" .. selection .. "/")
-end)
+end, { desc = "Replace selected text", silent = true })
