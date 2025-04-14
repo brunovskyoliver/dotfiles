@@ -21,6 +21,8 @@ set -g detach-on-destroy off  # don't exit from tmux when closing a session
 #   - false (default)
 tmux_conf_preserve_stock_bindings=false
 
+bind-key t clock-mode
+
 
 bind-key "q" run-shell "sesh connect \"$(
   sesh list --icons | fzf-tmux -p 100%,100% \
