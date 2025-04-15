@@ -22,4 +22,6 @@ for file in $files; do
     $cmd "$file" "$HOME"
 done
 
-(cd ~/dotfiles && git add . && git commit -m "automat push" && git push origin main --force) >/dev/null 2>&1 &
+if [[ "$1" == "-d" ]]; then
+    (cd ~/dotfiles && git add . && git commit -m "automat push" && git push origin main --force) >/dev/null 2>&1 &
+fi
