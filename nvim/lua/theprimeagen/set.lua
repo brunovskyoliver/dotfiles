@@ -30,7 +30,7 @@ vim.opt.updatetime = 50
 
 vim.o.paste = false
 --vim.opt.clipboard:append("unnamedplus")
---vim.opt.colorcolumn = "80"
+vim.opt.colorcolumn = "80"
 vim.api.nvim_create_augroup("view_autosave", { clear = true })
 
 -- Save view on leaving a window if the buffer has a valid name and is a normal file.
