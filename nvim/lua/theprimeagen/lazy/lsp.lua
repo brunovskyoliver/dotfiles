@@ -12,7 +12,6 @@ return {
         "L3MON4D3/LuaSnip",
         "saadparwaiz1/cmp_luasnip",
         "j-hui/fidget.nvim",
-        "Hoffs/omnisharp-extended-lsp.nvim",
     },
 
     config = function()
@@ -40,7 +39,6 @@ return {
                 "lua_ls",
                 "rust_analyzer",
                 "gopls",
-                "omnisharp",
             },
             handlers = {
                 function(server_name) -- default handler (optional)
