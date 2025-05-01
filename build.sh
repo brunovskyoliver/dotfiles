@@ -35,6 +35,6 @@ if [[ "$ID" == "arch" ]]; then
     sudo pacman -S hyprland waybar dunst rofi kitty thunar firefox neovim qt5-wayland qt6-wayland
     sudo pacman -S polkit-gnome network-manager-applet blueman pavucontrol brightnessctl wofi swaylock swayidle
     curl https://pyenv.run | bash
-    exec zsh
     sudo pacman -S zoxide
+    exec zsh
 fi
