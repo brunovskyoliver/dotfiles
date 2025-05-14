@@ -210,3 +210,10 @@ run = 'move-node-to-workspace 1'
 [[on-window-detected]]
 if.window-title-regex-substring = 'Simulator'
 run = 'layout floating'
+
+
+[[on-window-detected]]
+if.window-title-regex-substring = 'com.apple.finder'
+run = 'move-node-to-workspace 2'
+
+
