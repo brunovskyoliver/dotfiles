@@ -26,9 +26,8 @@ if [[ "$1" == "-d" ]]; then
     (cd ~/dotfiles && git add . && git commit -m "automat push" && git push origin main --force) >/dev/null 2>&1 &
 fi
 
-source /etc/os-release
-
 if [[ "$ID" == "arch" ]]; then
+    source /etc/os-release
     sudo pacman -S --needed --noconfirm base-devel openssl zlib readline gnu-netcat openssh pipewire wireplumber xdg-desktop-portal-hyprland xdg-desktop-portal-gtk networkmanager mesa vulkan-icd-loader
     systemctl enable NetworkManager
     systemctl start NetworkManager
