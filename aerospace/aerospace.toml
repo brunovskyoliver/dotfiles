@@ -213,7 +213,7 @@ run = 'layout floating'
 
 
 [[on-window-detected]]
-if.window-title-regex-substring = 'com.apple.finder'
+if.app-id = 'com.apple.finder'
 run = 'move-node-to-workspace 2'
 
 
