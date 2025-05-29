@@ -194,7 +194,14 @@ return {
             }),
             sources = cmp.config.sources({
                 --{ name = "copilot", group_index = 2 },
-                { name = 'nvim_lsp' },
+                {
+                    name = 'nvim_lsp',
+                    entry_filter = function(entry)
+                        -- Avoid auto-snippet parentheses from LSP
+                        local kind = entry:get_kind()
+                        return kind ~= vim.lsp.protocol.CompletionItemKind.Snippet
+                    end,
+                },
                 { name = 'luasnip' }, -- For luasnip users.
                 { name = 'path' },
             }, {
