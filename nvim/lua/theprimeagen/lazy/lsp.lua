@@ -2,6 +2,7 @@ return {
     "neovim/nvim-lspconfig",
     dependencies = {
         "stevearc/conform.nvim",
+        "ray-x/lsp_signature.nvim",
         "williamboman/mason.nvim",
         "williamboman/mason-lspconfig.nvim",
         "hrsh7th/cmp-nvim-lsp",
@@ -220,6 +221,15 @@ return {
                 end
             end,
         })
+        require("lsp_signature").setup({
+            bind = true,
+            floating_window = true,
+            hint_enable = false,
+            handler_opts = {
+                border = "rounded"
+            },
+        })
+
 
         vim.diagnostic.config({
             -- update_in_insert = true,
