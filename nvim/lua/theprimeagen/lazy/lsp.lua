@@ -200,6 +200,18 @@ return {
             }, {
                 { name = 'buffer' },
             })
+        }
+        )
+        vim.api.nvim_create_autocmd("InsertCharPre", {
+            pattern = "*.go",
+            callback = function()
+                local char = vim.v.char
+                if char == "(" or char == "," then
+                    vim.defer_fn(function()
+                        vim.lsp.buf.signature_help()
+                    end, 20)
+                end
+            end,
         })
 
         vim.diagnostic.config({
