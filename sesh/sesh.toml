@@ -47,4 +47,5 @@ path = "~/dotfiles"
 startup_command = "nvim .tmux.conf.local"
 preview_command = "bat --color=always ~/dotfiles/.tmux.conf.local"
 
-
+[default_session]
+startup_command = "nvim -c ':Telescope find_files'"
