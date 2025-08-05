@@ -8,10 +8,11 @@ export PATH="/Applications/Emacs.app/Contents/MacOS:$PATH"
 export PATH="$HOME/.local/scripts:$PATH"
 bindkey -s ^f "vim-fzf\n"
 bindkey -s ^s "ssh-connections\n"
-if [[ "$TERM" == "tmux-256color" || "$TERM" == "xterm-256color" ]]; then
-  export TERM="xterm"
-fi
+# if [[ "$TERM" == "tmux-256color" || "$TERM" == "xterm-256color" ]]; then
+#   export TERM="xterm"
+# fi
 
+export TERM="tmux-256color"
 
 #alias remf='rm -rf "$HOME/Library/Containers/com.apple.FinalCutTrial/Data/Library/Application Support/.ffuserdata"'
 # load a random theme each time oh-my-zsh is loaded, in which case,
