@@ -212,9 +212,18 @@ run = 'move-node-to-workspace 1'
 if.window-title-regex-substring = 'Simulator'
 run = 'layout floating'
 
-
 [[on-window-detected]]
 if.app-id = 'com.apple.finder'
 run = 'move-node-to-workspace 2'
+
+[mode.ignore.binding]
+
+[[on-window-focused]]
+if.app-id = 'com.utmapp.UTM'
+run = 'mode ignore'
+
+[[on-window-unfocused]]
+if.app-id = 'com.utmapp.UTM'
+run = 'mode main'
 
 
