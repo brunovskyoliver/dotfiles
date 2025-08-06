@@ -216,14 +216,4 @@ run = 'layout floating'
 if.app-id = 'com.apple.finder'
 run = 'move-node-to-workspace 2'
 
-[mode.ignore.binding]
-
-[[on-window-focused]]
-if.app-id = 'com.utmapp.UTM'
-run = 'mode ignore'
-
-[[on-window-unfocused]]
-if.app-id = 'com.utmapp.UTM'
-run = 'mode main'
-
 
