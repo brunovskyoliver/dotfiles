@@ -182,3 +182,7 @@ export PATH="$HOME/go/bin:$PATH"
 export PATH=/Users/oliver/.opencode/bin:$PATH
 
 export PATH="/Library/TeX/texbin:$PATH"
+if [ -x /opt/homebrew/bin/brew ]; then
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
+
