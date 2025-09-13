@@ -2,6 +2,7 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
+alias python="/Library/Frameworks/Python.framework/Versions/3.12/bin/python3"
 export ZSH="$HOME/.oh-my-zsh"
 export PATH="/home/brunovsky/.local/bin:$PATH"
 export PATH="/Applications/Emacs.app/Contents/MacOS:$PATH"
@@ -186,5 +187,4 @@ if [ -x /opt/homebrew/bin/brew ]; then
   eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
 
-alias python="/Library/Frameworks/Python.framework/Versions/3.12/bin/python3"
 
