@@ -186,3 +186,5 @@ if [ -x /opt/homebrew/bin/brew ]; then
   eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
 
+alias python="/Library/Frameworks/Python.framework/Versions/3.12/bin/python3"
+
