@@ -188,3 +188,5 @@ if [ -x /opt/homebrew/bin/brew ]; then
 fi
 
 
+export PATH="/Library/Frameworks/Python.framework/Versions/3.12/bin:$PATH"
+alias python=...
