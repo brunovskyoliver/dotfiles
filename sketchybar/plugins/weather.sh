@@ -19,7 +19,7 @@ fi
 
 TEMPERATURE=$(echo $WEATHER_JSON | jq '.current_condition[0].temp_C' | tr -d '"')
 #WEATHER_DESCRIPTION=$(echo $WEATHER_JSON | jq '.current_condition[0].weatherDesc[0].value' | tr -d '"' | sed 's/\(.\{16\}\).*/\1.../')
-WEATHER_DESCRIPTION=$(echo $WEATHER_JSON | jq '.current_condition[0].weatherDesc[0].value' | cut -d',' -f1 | cut -c1-16)
+WEATHER_DESCRIPTION=$(echo $WEATHER_JSON | jq -r '.current_condition[0].weatherDesc[0].value' | cut -d',' -f1 | cut -c1-16)
 
 sketchybar --set $NAME \
     label="$TEMPERATURE$(echo '°')C • $WEATHER_DESCRIPTION"
