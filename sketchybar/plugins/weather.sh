@@ -5,7 +5,7 @@ sketchybar --set $NAME \
 # fetch weather data
 LOCATION="Bratislava"
 REGION=""
-LANG="ko"
+LANG="en"
 
 # Line below replaces spaces with +
 LOCATION_ESCAPED="${LOCATION// /+}+${REGION// /+}"
