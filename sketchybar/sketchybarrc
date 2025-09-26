@@ -1,5 +1,6 @@
 #!/bin/bash
 
+export CONFIG_DIR="$HOME/.config/sketchybar"
 source "$HOME/.config/sketchybar/colors.sh" # Loads all defined colors
 source "$HOME/.config/sketchybar/icons.sh"  # Loads all defined icons
 
