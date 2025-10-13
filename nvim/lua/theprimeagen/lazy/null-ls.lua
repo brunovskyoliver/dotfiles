@@ -5,7 +5,7 @@ return {
         "jay-babu/mason-null-ls.nvim",
     },
     config = function()
-        local null_ls = require("none-ls") -- changed from "null-ls" → "none-ls"
+        local null_ls = require("none-ls")
 
         require("mason-null-ls").setup({
             ensure_installed = { "xmlformatter" },
