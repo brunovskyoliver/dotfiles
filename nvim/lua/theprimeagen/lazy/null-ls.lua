@@ -3,9 +3,10 @@ return {
     dependencies = {
         "williamboman/mason.nvim",
         "jay-babu/mason-null-ls.nvim",
+        "nvim-lua/plenary.nvim",
     },
     config = function()
-        local null_ls = require("none-ls")
+        local null_ls = require("null-ls") -- ← keep this as "null-ls", not "none-ls"
 
         require("mason-null-ls").setup({
             ensure_installed = { "xmlformatter" },
