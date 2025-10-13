@@ -9,7 +9,7 @@ return {
         local null_ls = require("null-ls") -- ← keep this as "null-ls", not "none-ls"
 
         require("mason-null-ls").setup({
-            ensure_installed = { "xmlformatter" },
+            -- ensure_installed = { "xmlformatter" },
             automatic_installation = true,
         })
 
