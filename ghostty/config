@@ -1,5 +1,5 @@
 font-size = 21
-background-opacity = 0.80
+background-opacity = 0.85
 #command=/usr/bin/env zsh -ic "exec tmux"
 font-family="Fantasque Sans Mono Regular"
 theme= TokyoNight
