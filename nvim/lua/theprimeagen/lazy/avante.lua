@@ -20,7 +20,7 @@ return {
 				__inherited_from = "openai",
 				api_key_name = "GROQ_API_KEY",
 				endpoint = "https://api.groq.com/openai/v1/",
-				model = "llama-3.3-70b-versatile",
+				model = "openai/gpt-oss-120b",
 			},
 		},
 	},
