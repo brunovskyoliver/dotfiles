@@ -1,4 +1,5 @@
 return {
+    { 'wakatime/vim-wakatime', lazy = false },
 
     {
         "nvim-lua/plenary.nvim",
@@ -6,8 +7,7 @@ return {
     },
 
     "eandrju/cellular-automaton.nvim",
-{
-    'numToStr/Comment.nvim',
-},
+    {
+        'numToStr/Comment.nvim',
+    },
 }
-
