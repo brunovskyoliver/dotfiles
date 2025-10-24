@@ -3,11 +3,15 @@ return {
 	event = "VeryLazy",
 	version = false, -- Never set this value to "*"! Never!
 	opts = {
-		provider = "groq", -- default provider
+		provider = "copilot", -- default provider
 		max_context_lines = 150, -- reduce how many lines of context Avante sends
 		max_prompt_tokens = 7000, -- keep under your 8k TPM free-tier limit
 
 		providers = {
+			copilot = {
+				api_key_name = "GITHUB_TOKEN", -- Copilot plugin handles auth automatically
+				model = "gpt-4o",
+			},
 			openai = {
 				endpoint = "https://api.openai.com/v1",
 				model = "gpt-4o",
