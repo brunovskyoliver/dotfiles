@@ -4,6 +4,8 @@ return {
 	version = false, -- Never set this value to "*"! Never!
 	opts = {
 		provider = "groq", -- default provider
+		max_context_lines = 150, -- reduce how many lines of context Avante sends
+		max_prompt_tokens = 7000, -- keep under your 8k TPM free-tier limit
 
 		providers = {
 			openai = {
