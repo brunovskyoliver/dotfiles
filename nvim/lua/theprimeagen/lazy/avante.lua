@@ -10,7 +10,7 @@ return {
 		providers = {
 			copilot = {
 				api_key_name = "GITHUB_TOKEN", -- Copilot plugin handles auth automatically
-				model = "gpt-4o",
+				model = "gpt-5",
 			},
 			openai = {
 				endpoint = "https://api.openai.com/v1",
