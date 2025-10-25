@@ -509,6 +509,7 @@ tmux_conf_uninstall_plugins_on_reload=true
 # # usage: #{wan_ip_v4}
 # wan_ip_v4() {
 #   curl -f -s -m 2 -4 ifconfig.me
+#   sleep 300
 # }
 #
 # # usage: #{wan_ip_v6}
