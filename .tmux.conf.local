@@ -506,10 +506,15 @@ tmux_conf_uninstall_plugins_on_reload=true
 #   ping -c 1 1.1.1.1 >/dev/null 2>&1 && printf '✔' || printf '✘'
 # }
 #
-# # usage: #{wan_ip_v4}
 # wan_ip_v4() {
-#   curl -f -s -m 2 -4 ifconfig.me
-#   sleep 300
+#   cache_file="/tmp/wan_ip_v4.txt"
+#
+#   # refresh if older than 5 minutes
+#   if [ ! -f "$cache_file" ] || [ $(( $(date +%s) - $(stat -f %m "$cache_file" 2>/dev/null || echo 0) )) -gt 300 ]; then
+#     curl -f -s -m 2 -4 ifconfig.me > "$cache_file" 2>/dev/null || echo "N/A" > "$cache_file"
+#   fi
+#
+#   cat "$cache_file"
 # }
 #
 # # usage: #{wan_ip_v6}
