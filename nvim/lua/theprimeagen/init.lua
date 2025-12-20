@@ -107,7 +107,7 @@ autocmd("BufEnter", {
 
 autocmd("LspAttach", {
 	group = ThePrimeagenGroup,
-	allback = function(e)
+	callback = function(e)
 		local opts = { buffer = e.buf }
 		vim.keymap.set("n", "gd", function()
 			vim.lsp.buf.definition()
