@@ -1,4 +1,4 @@
-return {{
+return {
 'stevearc/oil.nvim',
     config = function()
 require("oil").setup({
@@ -206,5 +206,4 @@ require("oil").setup({
   },
 })
     end,
-},
 }
