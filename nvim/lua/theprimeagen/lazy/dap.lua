@@ -162,7 +162,7 @@ return {
                       request = "launch",
                       name = "Python: current file",
                       program = "${file}",
-                      console = "integratedTerminal",
+                      console = "internalConsole",
                     })
                   end,
                     delve = function(config)
