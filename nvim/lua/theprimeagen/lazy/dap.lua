@@ -147,12 +147,24 @@ return {
             require("mason-nvim-dap").setup({
                 ensure_installed = {
                     "delve",
+                    "debugpy",
                 },
                 automatic_installation = true,
                 handlers = {
                     function(config)
                         require("mason-nvim-dap").default_setup(config)
                     end,
+                  python = function(config)
+                    require("mason-nvim-dap").default_setup(config)
+                    config.configurations = config.configurations or {}
+                    table.insert(config.configurations, {
+                      type = "python",
+                      request = "launch",
+                      name = "Python: current file",
+                      program = "${file}",
+                      console = "integratedTerminal",
+                    })
+                  end,
                     delve = function(config)
                         table.insert(config.configurations, 1, {
                             args = function() return vim.split(vim.fn.input("args> "), " ") end,
