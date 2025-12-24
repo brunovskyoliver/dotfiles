@@ -29,7 +29,7 @@ vim.opt.isfname:append("@-@")
 vim.opt.updatetime = 50
 
 vim.o.paste = false
-vim.opt.clipboard:append("unnamedplus")
+-- vim.opt.clipboard:append("unnamedplus")
 vim.opt.colorcolumn = "80"
 vim.api.nvim_create_augroup("view_autosave", { clear = true })
 
