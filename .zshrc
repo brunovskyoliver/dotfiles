@@ -211,6 +211,7 @@ vim-fzf() {
 
   cd -- "$selected" || return
   nvim .
+  source ~/.zshrc
 }
 
 vim_fzf_widget() { vim-fzf }
