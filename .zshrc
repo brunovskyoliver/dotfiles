@@ -7,7 +7,7 @@ export ZSH="$HOME/.oh-my-zsh"
 export PATH="/home/brunovsky/.local/bin:$PATH"
 export PATH="/Applications/Emacs.app/Contents/MacOS:$PATH"
 export PATH="$HOME/.local/scripts:$PATH"
-bindkey -s ^f "vim-fzf\n"
+# bindkey -s ^f "vim-fzf\n"
 bindkey -s ^s "ssh-connections\n"
 # if [[ "$TERM" == "tmux-256color" || "$TERM" == "xterm-256color" ]]; then
 #   export TERM="xterm"
@@ -198,4 +198,18 @@ alias sshrc=/usr/local/bin/sshrc
 export PATH="$HOME/Library/Python/3.12/bin:$PATH"
 bindkey -M emacs '^F' undefined-key
 bindkey -M emacs -s '^F' 'vim-fzf\n'
+
+vim-fzf() {
+  local selected
+  if [[ $# -eq 1 ]]; then
+    selected="$1"
+  else
+    selected=$(find ~ -mindepth 1 -maxdepth 4 -type d -name .git -prune -o -type d -print | fzf) || return
+  fi
+
+  [[ -z "$selected" ]] && return
+
+  cd -- "$selected" || return
+  nvim .
+}
 
