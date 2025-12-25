@@ -13,7 +13,6 @@ return {
         "L3MON4D3/LuaSnip",
         "saadparwaiz1/cmp_luasnip",
         "j-hui/fidget.nvim",
-        "neoclide/coc.nvim",
     },
 
     config = function()
