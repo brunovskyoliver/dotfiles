@@ -196,8 +196,8 @@ export PATH="/Library/Frameworks/Python.framework/Versions/3.12/bin:$PATH"
 alias sshrc=/usr/local/bin/sshrc
 
 export PATH="$HOME/Library/Python/3.12/bin:$PATH"
-bindkey -M emacs '^F' undefined-key
-bindkey -M emacs -s '^F' 'vim-fzf\n'
+# bindkey -M emacs '^F' undefined-key
+# bindkey -M emacs -s '^F' 'vim-fzf\n'
 
 vim-fzf() {
   local selected
@@ -213,3 +213,6 @@ vim-fzf() {
   nvim .
 }
 
+vim_fzf_widget() { vim-fzf }
+zle -N vim_fzf_widget
+bindkey -M emacs '^F' vim_fzf_widget
