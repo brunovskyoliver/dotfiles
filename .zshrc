@@ -161,6 +161,7 @@ weather() {
 }
 alias m='insect'
 alias \?='tldr'
+alias 'gs'='git status'
 alias pd='cd ~/Documents/Programming'
 export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
 eval "$(zoxide init zsh)"
