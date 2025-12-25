@@ -196,3 +196,6 @@ export PATH="/Library/Frameworks/Python.framework/Versions/3.12/bin:$PATH"
 alias sshrc=/usr/local/bin/sshrc
 
 export PATH="$HOME/Library/Python/3.12/bin:$PATH"
+bindkey -M emacs '^F' undefined-key
+bindkey -M emacs -s '^F' 'vim-fzf\n'
+
