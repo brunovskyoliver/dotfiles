@@ -217,3 +217,4 @@ vim-fzf() {
 vim_fzf_widget() { vim-fzf }
 zle -N vim_fzf_widget
 bindkey -M emacs '^F' vim_fzf_widget
+bindkey -s '^Xgc' 'git commit -m ""\C-b'
