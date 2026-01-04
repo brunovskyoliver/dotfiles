@@ -8,8 +8,8 @@ fi
 dirs=$(find "$HOME/dotfiles" -mindepth 1 -maxdepth 1 -type d | awk '!/git/')
 mkdir -p "$HOME/.config"
 
-mkdir -p "/usr/local/bin/"
-cp "$HOME/dotfiles/wip" "/usr/local/bin/"
+# mkdir -p "/usr/local/bin/"
+# cp "$HOME/dotfiles/wip" "/usr/local/bin/"
 
 for dir in $dirs; do
     $cmd "$dir" "$HOME/.config"
