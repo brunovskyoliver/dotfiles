@@ -34,6 +34,9 @@ return	{
 			vim.keymap.set("n", "<leader>9f", function()
 				_99.fill_in_function()
 			end)
+            vim.keymap.set("v", "<leader>9p", function()
+              _99.visual_prompt()
+            end, { desc = "99: Visual prompt" })
             -- take extra note that i have visual selection only in v mode
             -- technically whatever your last visual selection is, will be used
             -- so i have this set to visual mode so i dont screw up and use an
