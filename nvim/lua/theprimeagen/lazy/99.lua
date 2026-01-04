@@ -14,6 +14,7 @@ return	{
 					path = "/tmp/" .. basename .. ".99.debug",
 					print_on_error = true,
 				},
+                model = "opencode/gpt-5-nano",
 
                 --- WARNING: if you change cwd then this is likely broken
                 --- ill likely fix this in a later change
