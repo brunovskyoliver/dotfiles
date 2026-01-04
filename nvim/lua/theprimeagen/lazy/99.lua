@@ -14,7 +14,7 @@ return	{
 					path = "/tmp/" .. basename .. ".99.debug",
 					print_on_error = true,
 				},
-                model = "github-copilot/claude-opus-4.5",
+                model = "github-copilot/claude-haiku-4.5",
 
                 --- WARNING: if you change cwd then this is likely broken
                 --- ill likely fix this in a later change
