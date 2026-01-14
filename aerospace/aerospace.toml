@@ -13,7 +13,7 @@ after-login-command = []
 # 'after-startup-command' is run after 'after-login-command'
 # Available commands : https://nikitabobko.github.io/AeroSpace/commands
 after-startup-command = [
-'exec-and-forget /usr/local/bin/peekaboo',
+'exec-and-forget ~/Programming/peekaboo/.build/arm64-apple-macosx/debug/Peekaboo',
 ]
 
 # exec-on-workspace-change = [
