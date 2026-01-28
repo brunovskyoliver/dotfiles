@@ -23,6 +23,7 @@ ZSH_THEME="ys"
 #ZSH_THEME="robbyrussell"
 ##### Aliases #####
 # Enable colors by default.
+alias mail='aerc'
 alias diff='diff --color=auto'
 alias egrep='egrep --color=auto'
 alias fgrep='fgrep --color=auto'
