@@ -105,7 +105,7 @@ return	{
               require("99.extensions.telescope").select_provider()
             end)
 
-            vim.keymap.set("n", "<leader>av", function()
+            vim.keymap.set("n", "<leader>9V", function()
               require("99").vibe()
             end, { desc = "99: vibe" })
 
