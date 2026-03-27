@@ -220,3 +220,5 @@ zle -N vim_fzf_widget
 bindkey -M emacs '^F' vim_fzf_widget
 bindkey -s '^Xgc' 'git commit -m ""\C-b'
 export TZ=Europe/Bratislava
+export DOTNET_ROOT="/opt/homebrew/opt/dotnet/libexec"
+export PATH="$DOTNET_ROOT:$PATH"
