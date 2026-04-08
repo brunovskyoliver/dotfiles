@@ -222,3 +222,4 @@ bindkey -s '^Xgc' 'git commit -m ""\C-b'
 export TZ=Europe/Bratislava
 export DOTNET_ROOT="/opt/homebrew/opt/dotnet/libexec"
 export PATH="$DOTNET_ROOT:$PATH"
+alias codex="codex --dangerously-bypass-approvals-and-sandbox"
