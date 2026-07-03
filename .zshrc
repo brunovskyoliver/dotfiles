@@ -13,7 +13,9 @@ bindkey -s ^s "ssh-connections\n"
 #   export TERM="xterm"
 # fi
 
-export TERM="tmux-256color"
+if [[ -n "$TMUX" ]]; then
+  export TERM="tmux-256color"
+fi
 
 #alias remf='rm -rf "$HOME/Library/Containers/com.apple.FinalCutTrial/Data/Library/Application Support/.ffuserdata"'
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -223,3 +225,5 @@ export TZ=Europe/Bratislava
 export DOTNET_ROOT="/opt/homebrew/opt/dotnet/libexec"
 export PATH="$DOTNET_ROOT:$PATH"
 alias codex="codex --dangerously-bypass-approvals-and-sandbox"
+
+export PATH="/Users/oliver/.csbridge/bin:$PATH" # cssh-path-inject
