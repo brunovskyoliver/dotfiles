@@ -225,6 +225,7 @@ export TZ=Europe/Bratislava
 export DOTNET_ROOT="/opt/homebrew/opt/dotnet/libexec"
 export PATH="$DOTNET_ROOT:$PATH"
 alias codex="codex --dangerously-bypass-approvals-and-sandbox"
+alias claudex="claudex --dangerously-skip-permissions"
 
 export PATH="/Users/oliver/.csbridge/bin:$PATH" # cssh-path-inject
 export PATH="/Users/oliver/.local/bin:$PATH"
