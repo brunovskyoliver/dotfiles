@@ -227,3 +227,4 @@ export PATH="$DOTNET_ROOT:$PATH"
 alias codex="codex --dangerously-bypass-approvals-and-sandbox"
 
 export PATH="/Users/oliver/.csbridge/bin:$PATH" # cssh-path-inject
+export PATH="/Users/oliver/.local/bin:$PATH"
