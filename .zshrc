@@ -228,3 +228,4 @@ alias codex="codex --dangerously-bypass-approvals-and-sandbox"
 
 export PATH="/Users/oliver/.csbridge/bin:$PATH" # cssh-path-inject
 export PATH="/Users/oliver/.local/bin:$PATH"
+export PATH="/Users/oliver/.basert:$PATH"
