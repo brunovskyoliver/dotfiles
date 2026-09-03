@@ -35,21 +35,77 @@ return {
 
         require("fidget").setup({})
         require("mason").setup()
+
+        local lspconfig = require("lspconfig")
+        local omnisharp_cmd = vim.fn.stdpath("data") .. "/mason/bin/omnisharp"
+        local omnisharp_command = {
+            omnisharp_cmd,
+            "-z",
+            "--hostPID",
+            tostring(vim.fn.getpid()),
+            "DotNet:enablePackageRestore=false",
+            "--encoding",
+            "utf-8",
+            "--languageserver",
+        }
+        local omnisharp_capabilities = vim.tbl_deep_extend(
+            "force",
+            {},
+            capabilities,
+            { workspace = { workspaceFolders = false } }
+        )
+        local omnisharp_config = {
+            -- OmniSharp uses its process directory to discover projects. The
+            -- native LSP API does not automatically set it to root_dir.
+            cmd = function(dispatchers, config)
+                return vim.lsp.rpc.start(omnisharp_command, dispatchers, {
+                    cwd = config.root_dir,
+                    env = config.cmd_env,
+                    detached = config.detached,
+                })
+            end,
+            capabilities = omnisharp_capabilities,
+            settings = {
+                FormattingOptions = {
+                    EnableEditorConfigSupport = true,
+                    OrganizeImports = true,
+                },
+                MsBuild = {
+                    LoadProjectsOnDemand = true,
+                },
+                RoslynExtensionsOptions = {
+                    EnableAnalyzersSupport = true,
+                    EnableImportCompletion = true,
+                },
+            },
+        }
+
+        -- Neovim 0.11+ uses the native LSP configuration API. Older
+        -- mason-lspconfig releases use the handlers table below instead.
+        local has_native_omnisharp = vim.fn.has("nvim-0.11") == 1
+            and #vim.api.nvim_get_runtime_file("lsp/omnisharp.lua", true) > 0
+
+        if has_native_omnisharp then
+            vim.lsp.config("omnisharp", omnisharp_config)
+        end
+
         require("mason-lspconfig").setup({
             ensure_installed = {
                 "lua_ls",
                 "rust_analyzer",
                 "gopls",
+                "omnisharp",
             },
+            -- The native setup above owns OmniSharp on current versions.
+            automatic_enable = has_native_omnisharp and { exclude = { "omnisharp" } } or nil,
             handlers = {
                 function(server_name) -- default handler (optional)
-                    require("lspconfig")[server_name].setup {
+                    lspconfig[server_name].setup {
                         capabilities = capabilities
                     }
                 end,
 
                 zls = function()
-                    local lspconfig = require("lspconfig")
                     lspconfig.zls.setup({
                         root_dir = lspconfig.util.root_pattern(".git", "build.zig", "zls.json"),
                         settings = {
@@ -63,107 +119,25 @@ return {
                     vim.g.zig_fmt_parse_errors = 0
                     vim.g.zig_fmt_autosave = 0
                 end,
-                -- ["omnisharp"] = function()
-                --     local lspconfig = require("lspconfig")
-                --     local omnisharp_extended = require("omnisharp_extended")
-                --     vim.env.DOTNET_ROOT = "/usr/local/share/dotnet"
-                --     vim.env.MSBuildSDKsPath = "/Applications/Unity/Hub/Editor/6000.0.43f1/Unity.app/Contents/Managed/"
-                --
-                --     -- Expanded on_attach function with proper keybindings
-                --     local on_attach = function(client, bufnr)
-                --         print("✅ OmniSharp LSP attached to buffer " .. bufnr)
-                --
-                --         -- Define keybindings
-                --         local opts = { noremap = true, silent = true, buffer = bufnr }
-                --
-                --         -- Go to definition
-                --         vim.keymap.set("n", "gd", function()
-                --             require("omnisharp_extended").telescope_lsp_definitions()
-                --         end, opts)
-                --
-                --         -- Documentation with Shift+K
-                --         vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
-                --
-                --         -- Other useful mappings
-                --         vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
-                --         vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
-                --         vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
-                --         vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
-                --
-                --         -- Set omnisharp as the formatter for C# files
-                --         if client.server_capabilities.documentFormattingProvider then
-                --             vim.api.nvim_create_autocmd("BufWritePre", {
-                --                 pattern = "*.cs",
-                --                 callback = function()
-                --                     vim.lsp.buf.format({ async = false })
-                --                 end,
-                --                 buffer = bufnr,
-                --             })
-                --         end
-                --     end,
-                --     lspconfig.omnisharp.setup({
-                --         cmd = {
-                --             "dotnet",
-                --             "/Users/oliver/.local/bin/omnisharp/OmniSharp.dll",
-                --             "--languageserver",
-                --             "--hostPID",
-                --             tostring(vim.fn.getpid()),
-                --             "-z", -- Enable better Unity support
-                --             -- "--encoding", "utf-8",
-                --             -- "--debug" -- Add debug output
-                --         },
-                --         -- Expanded root_dir pattern to handle Unity projects
-                --         root_dir = lspconfig.util.root_pattern("*.sln", "*.csproj", "Assets", "ProjectSettings",
-                --             "UnityPackageManager"),
-                --         capabilities = require("cmp_nvim_lsp").default_capabilities(),
-                --         handlers = {
-                --             ["textDocument/definition"] = omnisharp_extended.handler,
-                --             ["textDocument/references"] = omnisharp_extended.handler,
-                --         },
-                --         on_attach = on_attach,
-                --         -- Unity-specific settings
-                --         enable_ms_build_load_projects_on_demand = true,
-                --         enable_roslyn_analyzers = true,
-                --         organize_imports_on_format = true,
-                --         enable_import_completion = true,
-                --         settings = {
-                --             FormattingOptions = {
-                --                 EnableEditorConfigSupport = true,
-                --                 OrganizeImports = true,
-                --                 NewLine = "\n", -- Ensure consistent line endings
-                --             },
-                --             RoslynExtensionsOptions = {
-                --                 EnableAnalyzersSupport = true,
-                --                 EnableImportCompletion = true,
-                --                 AnalyzeOpenDocumentsOnly = false, -- Changed to false to analyze referenced files too
-                --             },
-                --             MsBuild = {
-                --                 LoadProjectsOnDemand = true,
-                --                 UseLegacySdkResolver = true,
-                --                 EnableAssemblyAttributeDocumentation = true, -- For better documentation
-                --             },
-                --             Sdk = {
-                --                 IncludePrereleases = true,
-                --             },
-                --             FileOptions = {
-                --                 SystemExcludeSearchPatterns = { "**/node_modules/**/*", "**/bin/**/*", "**/obj/**/*" },
-                --                 ExcludeSearchPatterns = { "**/.git/**/*" },
-                --             },
-                --             ReferenceResolutionOptions = {
-                --                 -- Add references to Unity assemblies
-                --                 PreferredSourceRoots = {
-                --                     "/Applications/Unity/Hub/Editor/6000.0.43f1/Unity.app/Contents/Managed/",
-                --                     "/Users/oliver/Library/Unity/cache/"
-                --                 },
-                --             },
-                --         },
-                --         flags = {
-                --             debounce_text_changes = 150,
-                --         },
-                --     })
-                -- end,
+                ["omnisharp"] = function()
+                    lspconfig.omnisharp.setup(vim.tbl_deep_extend(
+                        "force",
+                        {},
+                        omnisharp_config,
+                        {
+                            root_dir = lspconfig.util.root_pattern(
+                                "*.slnx",
+                                "*.sln",
+                                "*.csproj",
+                                "omnisharp.json",
+                                "function.json",
+                                "Assets",
+                                "ProjectSettings"
+                            ),
+                        }
+                    ))
+                end,
                 ["lua_ls"] = function()
-                    local lspconfig = require("lspconfig")
                     lspconfig.lua_ls.setup {
                         capabilities = capabilities,
                         settings = {
@@ -178,6 +152,10 @@ return {
                 end,
             }
         })
+
+        if has_native_omnisharp then
+            vim.lsp.enable("omnisharp")
+        end
 
         local cmp_select = { behavior = cmp.SelectBehavior.Select }
 
