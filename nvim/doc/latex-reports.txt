@@ -1,0 +1,90 @@
+*latex-reports.txt*  Writing LaTeX reports
+
+Open a .tex file normally. VimTeX detects the main document and handles
+compilation, indentation, syntax, environments, and PDF synchronization.
+Texlab provides completion, references, document symbols, and diagnostics.
+
+WORKFLOW                                                   *latex-reports*
+
+  <Space>ll       Compile; with latexmk, toggle continuous compilation.
+  <Space>lv       Open Skim and jump to the PDF location under the cursor.
+  <Space>la       Toggle Tectonic compilation on save for this project.
+  <Space>le       Open the compilation errors in quickfix.
+  <Space>lo       Show compiler output.
+  <Space>lt       Open the table of contents.
+  <Space>li       Show the detected main file, compiler, and viewer.
+  <Space>lh       Open this help page.
+  <Space>lk       Stop a running compilation.
+
+Tectonic compiles on saves of .tex and .bib files inside an open project's
+directory. Skim refreshes after successful compilation without taking focus.
+Use <Space>la to pause save builds. With latexmk, start its watcher with
+<Space>ll instead. Texlab does not start a second build on save.
+
+PDFs, logs, SyncTeX, and auxiliary files go into Neovim's cache directory,
+under latex/<project-path-hash>/. No build files are written beside the source.
+<Space>lv opens the cached PDF; <Space>le reads the cached compilation log.
+Use <Space>li to see the project's output directory.
+
+COMPLETION AND SNIPPETS
+
+Use Ctrl-Space to open completion, Ctrl-n/Ctrl-p to choose, and Enter to
+accept. Labels and citation keys come from Texlab. VimTeX's Ctrl-x Ctrl-o
+completion is also available.
+
+Type a snippet trigger, then Ctrl-k to expand it. Tab expands or jumps to
+the next placeholder, and Shift-Tab jumps back. Ctrl-j also jumps forward.
+Triggers: texdoc, env, sec, ssec, eq, align, fig, tbl, items, cite, ref,
+frac, bf, it. The texdoc snippet makes an article with an abstract and
+introduction. The figure and table snippets include captions and labels.
+
+Prose wraps visually without changing source lines. j/k move by screen line;
+numbered motions such as 5j still move by source line. Indentation is two
+spaces. Commands stay visible. English spelling is enabled outside math:
+]s/[s find spelling mistakes, z= suggests corrections, zg accepts a word.
+Use :setlocal spelllang=sk for Slovak or :setlocal nospell to turn it off.
+
+MULTI-FILE REPORTS
+
+At the top of a chapter file, add a root directive if automatic detection
+does not find the main document:
+>
+  % !TeX root = ../main.tex
+<
+Use gf on input/include paths, [[ and ]] between sections, and <Space>lt
+for the outline. VimTeX text objects include ie/ae for environments and
+i$/a$ for math. cse changes an environment name; dse removes its wrapper.
+
+INSTALLATION
+
+The dotfiles Brewfile records tree-sitter-cli, tectonic, texlab, and Skim.
+Install them individually on a new Mac:
+>
+  brew install tree-sitter-cli tectonic texlab
+  brew install --cask skim
+<
+Copy the nvim configuration to ~/.config/nvim, then run :Lazy install.
+VimTeX is pinned to v2.16 for Neovim 0.11. Tree-sitter uses its master API,
+with updated CLI generation arguments. :TSInstallSync latex bibtex installs
+the parsers. VimTeX handles LaTeX highlighting and indentation; the LaTeX
+Tree-sitter parser remains available for structural tools.
+
+Tectonic downloads needed TeX packages on the first build and caches them.
+It uses XeTeX. Projects needing pdflatex/lualatex, biber, or shell-escape
+tools should use a TeX Live/MacTeX installation with latexmk. The config
+selects latexmk automatically when it is on PATH at Neovim startup.
+
+SKIM INVERSE SEARCH
+
+Skim > Settings > Sync > PDF-TeX Sync:
+  Preset:    Custom
+  Command:   /opt/homebrew/bin/nvim
+  Arguments: --headless -c "VimtexInverseSearch %line '%file'"
+
+Shift-Command-click text in the PDF to return to its source in the existing
+Neovim session. Skim's automatic update checking and reloading are enabled
+on this Mac. Keep VimTeX eagerly loaded so the callback can find the command.
+
+See :help vimtex and :checkhealth vimtex for more details.
+
+vim:tw=78:ts=8:noet:ft=help:norl:

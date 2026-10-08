@@ -12,6 +12,8 @@ mkdir -p "$HOME/.config"
 # cp "$HOME/dotfiles/wip" "/usr/local/bin/"
 
 for dir in $dirs; do
+    # Symlinked configs (nvim) already point here.
+    [[ -L "$HOME/.config/$(basename "$dir")" ]] && continue
     $cmd "$dir" "$HOME/.config"
 done
 
