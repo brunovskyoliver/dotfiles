@@ -75,26 +75,4 @@ return {
             })
         end,
     },
-    {
-        "nvim-neotest/neotest",
-        dependencies = {
-            "nvim-neotest/nvim-nio",
-            "nvim-lua/plenary.nvim",
-            "nvim-treesitter/nvim-treesitter",
-            "fredrikaverpil/neotest-golang",
-        },
-        keys = {
-            { "<leader>tr", function() require("neotest").run.run({ suite = false, testify = true }) end, desc = "Run nearest test" },
-            { "<leader>ts", function() require("neotest").run.run({ suite = true, testify = true }) end, desc = "Run test suite" },
-            { "<leader>td", function()
-                require("neotest").run.run({ suite = false, testify = true, strategy = "dap" })
-            end, desc = "Debug nearest test" },
-            { "<leader>to", function() require("neotest").output.open() end, desc = "Test output" },
-        },
-        config = function()
-            require("neotest").setup({
-                adapters = { require("neotest-golang")({ dap = { justMyCode = false } }) },
-            })
-        end,
-    },
 }

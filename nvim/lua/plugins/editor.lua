@@ -71,11 +71,5 @@ return {
             })
         end,
     },
-    {
-        "NeogitOrg/neogit",
-        cmd = "Neogit",
-        dependencies = { "nvim-lua/plenary.nvim", "sindrets/diffview.nvim", "ibhagwan/fzf-lua" },
-        opts = {},
-    },
     { "wakatime/vim-wakatime", event = "VeryLazy" },
 }

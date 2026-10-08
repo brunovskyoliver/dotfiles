@@ -24,20 +24,6 @@ return {
         end,
     },
     {
-        "obsidian-nvim/obsidian.nvim",
-        version = "*",
-        ft = "markdown",
-        opts = {
-            legacy_commands = false,
-            workspaces = {
-                {
-                    name = "brunovsky",
-                    path = "~/Library/Mobile Documents/iCloud~md~obsidian/Documents/brunovsky",
-                },
-            },
-        },
-    },
-    {
         "toppair/peek.nvim",
         build = "deno task --quiet build:fast",
         cmd = { "PeekOpen", "PeekClose" },

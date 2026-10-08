@@ -29,14 +29,6 @@ autocmd("BufWinEnter", {
     end,
 })
 
-autocmd("FileType", {
-    group = group,
-    pattern = "markdown",
-    callback = function()
-        vim.opt_local.conceallevel = 2
-    end,
-})
-
 autocmd("LspAttach", {
     group = group,
     callback = function(e)
