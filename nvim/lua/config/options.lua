@@ -32,6 +32,7 @@ vim.g.loaded_node_provider = 0
 vim.g.loaded_perl_provider = 0
 vim.g.loaded_ruby_provider = 0
 
-vim.env.DOTNET_ROOT = "/usr/local/share/dotnet"
+-- The Linux VM gets .NET from pacman, in /usr/share/dotnet.
+vim.env.DOTNET_ROOT = vim.fn.has("mac") == 1 and "/usr/local/share/dotnet" or "/usr/share/dotnet"
 
 vim.filetype.add({ extension = { templ = "templ" } })
