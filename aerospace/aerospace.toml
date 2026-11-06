@@ -51,6 +51,11 @@ key-mapping.preset = 'qwerty'
 # See https://nikitabobko.github.io/AeroSpace/guide#on-focus-changed-callbacks
 # See https://nikitabobko.github.io/AeroSpace/commands#move-mouse
 on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
+
+# A Mac window that lands in the VM's workspace "OmacVM" goes back to the
+# workspace you were on before the VM (see the OmacVM rule at the end).
+exec-on-workspace-change = ['/bin/bash', '-c', '~/.local/scripts/aerospace-omacvm-strays.sh']
+on-focus-changed = ['exec-and-forget ~/.local/scripts/aerospace-omacvm-strays.sh']
 # Gaps between windows (inner-*) and between monitor edges (outer-*).
 # Possible values:
 # - Constant:     gaps.outer.top = 8
@@ -89,7 +94,8 @@ outer.right =      5
 # You can uncomment this line to open up terminal with alt + enter shortcut
 # See: https://nikitabobko.github.io/AeroSpace/commands#exec-and-forget
 # alt-enter = 'exec-and-forget open -n /Applications/Ghostty.app'
-alt-enter = 'exec-and-forget ~/.local/scripts/ghostty.sh'
+# Reattach the most recently used tmux session, or create one on first launch.
+alt-enter = """exec-and-forget open -na Ghostty --args -e /bin/sh -c '/opt/homebrew/bin/tmux attach-session 2>/dev/null || exec /opt/homebrew/bin/tmux new-session -s main'"""
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#layout
 alt-slash = 'layout tiles horizontal vertical'
@@ -192,7 +198,8 @@ esc = ['reload-config', 'mode main']
 r = ['flatten-workspace-tree', 'mode main'] # reset layout
 #s = ['layout sticky tiling', 'mode main'] # sticky is not yet supported https://github.com/nikitabobko/AeroSpace/issues/2
 f = ['layout floating tiling', 'mode main'] # Toggle between floating and tiling layout
-backspace = ['close-all-windows-but-current', 'mode main']
+# Require an explicit chord rather than consuming ordinary deletion while typing.
+cmd-shift-backspace = ['close-all-windows-but-current', 'mode main']
 
 alt-shift-h = ['join-with left', 'mode main']
 alt-shift-j = ['join-with down', 'mode main']
@@ -229,5 +236,22 @@ if.app-id = 'com.apple.Safari'
 run = 'move-node-to-workspace B'
 
 [[on-window-detected]]
+if.app-id = 'com.ardia.browser'
+run = 'move-node-to-workspace B'
+
+[[on-window-detected]]
 if.app-id = 'com.kagi.kagimacOS'
 run = 'move-node-to-workspace B'
+
+# LocalFlow's main window is resizable, but macOS exposes no AXFullScreenButton.
+# Override AeroSpace's dialog heuristic only for the main window.
+[[on-window-detected]]
+if.app-id = 'org.localflow.LocalFlow'
+if.window-title-regex-substring = '^LocalFlow$'
+run = 'layout tiling'
+
+# OmacVM (Omarchy VM): keep it on its own workspace with no key bound to it,
+# so no alt-<n> shortcut lands in the VM. Enter/leave it with Option+Esc.
+[[on-window-detected]]
+if.app-id = 'org.omacvm.app'
+run = 'move-node-to-workspace OmacVM'
