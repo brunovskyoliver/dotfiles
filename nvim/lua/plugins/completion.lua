@@ -26,6 +26,8 @@ return {
         opts = {
             keymap = {
                 preset = "none",
+                ["<Down>"] = { "select_next", "fallback" },
+                ["<Up>"] = { "select_prev", "fallback" },
                 ["<C-n>"] = { "select_next", "fallback" },
                 ["<C-p>"] = { "select_prev", "fallback" },
                 ["<CR>"] = { "accept", "fallback" },

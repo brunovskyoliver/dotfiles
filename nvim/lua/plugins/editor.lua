@@ -71,5 +71,4 @@ return {
             })
         end,
     },
-    { "wakatime/vim-wakatime", event = "VeryLazy" },
 }
