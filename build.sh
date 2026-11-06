@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# Copies the Mac configs into ~/.config; on the Omarchy VM it would overwrite
+# Omarchy's own (Alacritty) and add Mac-only ones.
+[[ $(uname) == Darwin ]] || { echo "build.sh: macOS only" >&2; exit 1; }
+
 if [[ "$1" == "-s" ]]; then
     cmd="echo simulating copying"
 else

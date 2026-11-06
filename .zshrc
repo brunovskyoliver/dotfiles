@@ -178,8 +178,6 @@ export PATH="/usr/local/bin:$PATH"
 export PATH="/Library/Frameworks/Mono.framework/Versions/6.12.0/bin:$PATH"
 t() { command tre -l "3" "$@" -e && source "/tmp/tre_aliases_$USER" 2>/dev/null; }
 cl() { find . -name "$1" -type f -exec wc -l {} + | sort -n }
-export DOTNET_ROOT=/usr/local/share/dotnet
-export PATH="$DOTNET_ROOT:$PATH"
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
@@ -222,10 +220,23 @@ zle -N vim_fzf_widget
 bindkey -M emacs '^F' vim_fzf_widget
 bindkey -s '^Xgc' 'git commit -m ""\C-b'
 export TZ=Europe/Bratislava
-export DOTNET_ROOT="/opt/homebrew/opt/dotnet/libexec"
-export PATH="$DOTNET_ROOT:$PATH"
+if [[ $OSTYPE == darwin* ]]; then
+  export DOTNET_ROOT=/usr/local/share/dotnet
+  export PATH="$DOTNET_ROOT:$PATH"
+  export DOTNET_ROOT="/opt/homebrew/opt/dotnet/libexec"
+  export PATH="$DOTNET_ROOT:$PATH"
+else
+  export DOTNET_ROOT=/usr/share/dotnet # pacman dotnet-sdk-bin (Omarchy VM)
+fi
+export PATH="$PATH:$HOME/.dotnet/tools"
 alias codex="codex --dangerously-bypass-approvals-and-sandbox"
 
 export PATH="/Users/oliver/.csbridge/bin:$PATH" # cssh-path-inject
 export PATH="/Users/oliver/.local/bin:$PATH"
 export PATH="/Users/oliver/.basert:$PATH"
+
+export LLAMA_CPP_BASE_URL="http://127.0.0.1:8443"
+# Experiential Labs gateway key is stored in macOS Keychain.
+if command -v security >/dev/null 2>&1; then
+  export EXPLABS_API_KEY="${EXPLABS_API_KEY:-$(security find-generic-password -a "$USER" -s "EXPLABS_API_KEY" -w 2>/dev/null)}"
+fi

@@ -3,3 +3,4 @@ background-opacity = 0.85
 font-family="Fantasque Sans Mono Regular"
 theme= TokyoNight
 auto-update="download"
+shell-integration-features = ssh-env,ssh-terminfo
