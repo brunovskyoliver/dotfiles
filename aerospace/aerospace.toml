@@ -54,7 +54,8 @@ on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 
 # A Mac window that lands in the VM's workspace "OmacVM" goes back to the
 # workspace you were on before the VM (see the OmacVM rule at the end).
-exec-on-workspace-change = ['/bin/bash', '-c', '~/.local/scripts/aerospace-omacvm-strays.sh']
+# The PiP script moves picture-in-picture videos to the focused workspace.
+exec-on-workspace-change = ['/bin/bash', '-c', '~/.local/scripts/aerospace-omacvm-strays.sh; ~/.local/scripts/aerospace-pip-follow.sh']
 on-focus-changed = ['exec-and-forget ~/.local/scripts/aerospace-omacvm-strays.sh']
 # Gaps between windows (inner-*) and between monitor edges (outer-*).
 # Possible values:
@@ -234,6 +235,13 @@ run = 'move-node-to-workspace 2'
 [[on-window-detected]]
 if.app-id = 'com.apple.Safari'
 run = 'move-node-to-workspace B'
+
+# Ardia's picture-in-picture video reports as a standard window; float it and
+# keep it where it opens. Must stay above the Ardia rule (first match wins).
+[[on-window-detected]]
+if.app-id = 'com.ardia.browser'
+if.window-title-regex-substring = '^Picture in Picture$'
+run = 'layout floating'
 
 [[on-window-detected]]
 if.app-id = 'com.ardia.browser'
