@@ -318,6 +318,35 @@ for key, url in pairs(private.browserTabs or {}) do
 end
 updateBrowserHotkeys()
 
+-- Picture-in-picture (Ardia, Chrome): AeroSpace has no sticky windows, and Chromium
+-- reuses a PiP window that still belongs to an old workspace. AeroSpace then hides it
+-- in the bottom-right corner and the browser keeps pulling it back. Whenever a PiP
+-- window appears or moves, put it on the focused workspace so AeroSpace leaves it alone.
+local aerospaceBin = "/opt/homebrew/bin/aerospace"
+local pipTimers = {}
+local function pipToFocusedWorkspace(win)
+	if not win then return end
+	local id = win:id()
+	if pipTimers[id] then pipTimers[id]:stop() end
+	pipTimers[id] = hs.timer.doAfter(0.15, function()
+		pipTimers[id] = nil
+		async.run(aerospaceBin, { "list-workspaces", "--focused" }, 5, function(code, out)
+			local ws = (out or ""):gsub("%s+$", "")
+			if code ~= 0 or ws == "" or ws == "OmacVM" then return end
+			async.run(aerospaceBin, { "list-windows", "--workspace", ws, "--format", "%{window-id}" }, 5,
+				function(c2, ids)
+					if c2 == 0 and (("\n" .. (ids or "")):find("\n" .. id .. "\n", 1, true)) then return end
+					async.run(aerospaceBin, { "move-node-to-workspace", "--window-id", tostring(id), ws }, 5)
+				end)
+		end)
+	end)
+end
+pipWindowWatcher = hs.window.filter.new(false)
+	:setAppFilter("Ardia", { allowTitles = "^Picture in Picture$" })
+	:setAppFilter("Google Chrome", { allowTitles = "^Picture in Picture$" })
+pipWindowWatcher:subscribe({ hs.window.filter.windowCreated, hs.window.filter.windowVisible,
+	hs.window.filter.windowMoved }, pipToFocusedWorkspace)
+
 -- NetBird / ZeroTier daemons are loaded idle at boot (KeepAlive/RunAtLoad false).
 -- Start the daemon when its app opens, stop it when the app quits. sudo rule: /etc/sudoers.d/vpn-on-demand
 -- ponytail: both are menu-bar-only apps, which never fire hs.application.watcher events, so poll every 5 s.
